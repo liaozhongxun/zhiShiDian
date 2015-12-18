@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<script>
+/*枚举算法：用for来从众多的候选答案中，用过if找出正确的解
+  可以用于从众多对象中抽取对象，但是抽过的你再去抽他 就抽不中的情况
+  如下题: 当点击a时让a的值添加到ul中 如果是点击第二次就不会重复添加
+          再次做处理 当点击第二次时就让点击的值添加到第一行
+*/
+window.onload = function(){
+	var aA = document.getElementsByTagName('a');
+	var oUl = document.getElementById('ul1');
+	var aLi = oUl.getElementsByTagName('li');
+	
+	for(var i=0;i<aA.length;i++){
+		aA[i].onclick = function(){//当点击a的时候
+		
+			if(mj(this.innerHTML)){
+				var oLi = document.createElement('li');
+				oLi.innerHTML = this.innerHTML;
+				if(!aLi[0]){
+					oUl.appendChild(oLi);
+				}
+				else{
+					oUl.insertBefore(oLi,aLi[0]);
+				}
+			}
+			else{
+				mj2(this.innerHTML);
+			}
+			
+		};
+	}
+	
+	function mj(text){
+	//判断传进去的值有没在ul里没有的话返回true 走创建元素
+	//没有的话就走else 不要创建 执行mj2();
+		
+		var result = true;
+		
+		for(var i=0;i<aLi.length;i++){
+			if(aLi[i].innerHTML == text){
+				result = false;
+			}
+		}
+		
+		return result;
+		
+	}
+	
+	function mj2(text){//如果mj1返回false就执行
+	
+		for(var i=0;i<aLi.length;i++){
+			if(aLi[i].innerHTML == text){
+				oUl.insertBefore(aLi[i],aLi[0]);
+			}
+		}
+	
+	}
+	
+	
+};
+</script>
+</head>
+
+<body>
+<a href="javascript:;">北京</a>
+<a href="javascript:;">上海</a>
+<a href="javascript:;">深圳</a>
+<a href="javascript:;">广州</a>
+<a href="javascript:;">天津</a>
+<a href="javascript:;">重庆</a>
+<a href="javascript:;">杭州</a>
+<ul id="ul1">
+</ul>
+</body>
+</html>
