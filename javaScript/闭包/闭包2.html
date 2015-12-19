@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<script>
+
+//好处：
+//1.希望一个变量长期驻扎在内存当中
+//2.避免全局变量的污染
+//3.私有成员的存在
+
+//用法：
+//1.模块化代码
+//2.在循环中直接找到对应元素的索引
+
+/* //正常情况下
+var a = 1;
+function aaa(){
+	a++;
+	alert(a);
+}
+
+aaa();  //2
+aaa();  //3 每次调用都是同一个a
+alert(a); //3
+*/
+
+/*
+var a = 1;
+function aaa(a){
+	a++;
+	alert(a);
+}
+
+aaa(a);  //2
+aaa(a);  //2  每次调用都是 a的副本 因为是基本数据类型所以不会影响原来的值
+alert(a); //1
+*/
+
+/*
+function aaa(){
+	var a = 1;
+	a++;
+	alert(a);
+}
+aaa();  //2  每次调用时都会创建一个a 为 1 用完就销毁了
+aaa();  //2
+*/
+
+
+/*
+function aaa(){
+	var a = 1;
+	return function(){
+		a++;
+		alert(a);
+	}
+}
+
+var b = aaa();  //b就是return后的函数
+
+b();  //2  
+b();  //3
+alert(a); //undefined
+*/
+
+
+
+/*
+var aaa = (function(){
+
+	var a = 1;
+	return function(){
+		a++;
+		alert(a);
+	}
+
+})(); //因为返回的函数一直引用着a 所以a不会自动销毁
+
+aaa();  //2
+aaa();  //3
+*/
+
+/*
+
+var aaa = (function(){//里面的内容为返回对象的私有方法和属性
+
+	var a = 1;
+	
+	function bbb(){
+		a++;
+		alert(a);
+	}
+	
+	function ccc(){
+		a++;
+		alert(a);
+	}
+	
+	return {
+		
+		b : bbb,
+		c : ccc
+		
+	}
+
+})();
+
+
+aaa.b();  //2
+aaa.c();  //3
+
+//alert(a);  //不存在
+//alert(bbb);//不存在
+//alert(ccc);  //不存在
+*/
+</script>
+</head>
+
+<body>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>面向对象拖拽</title>
+</head>
+<style type="text/css">
+	* { margin:0px; padding:0px; }
+
+	#obj{ width:100px; height:100px; background:#f00;position: absolute; }
+</style>
+<body>
+	<div id="obj"></div>
+</body>
+<script type="text/javascript">
+	window.onload = function(){
+		var tuoz = new Dra("obj"); 
+	}
+	function Dra(id){
+        this.id = id;
+        this.obj = document.getElementById(this.id);
+        this.init();
+	}
+
+	Dra.prototype.init=function(){
+		var This = this;
+		this.obj.onmousedown=function(e){
+			var ev = e || window.event;
+			This.mouMove(ev);
+			return false;//只适用阻止dom0级默认事件
+		}
+	}
+	Dra.prototype.mouMove=function(ev){
+
+	}
+
+	Dra.prototype.drag=function(){
+
+	}
+</script>
+</html>
