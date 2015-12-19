@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>阻止默认事件</title>
+</head>
+<body>
+	<div id="div">fdsafdsa</div>
+	<a href="http://www.baidu.com" onclick="window.event.returnValue = false" >fg</a>
+</body>
+<script type="text/javascript">
+//一阻止默认事件
+	/*
+	   1、return false 一般只能阻止这类事件写法的默认事件 兼容主流浏览器(如非主流的右键菜单也行)
+
+	   2、window.event.returnValue = false; 暂时觉得跟return false差不多
+
+	   3、ev.preventDefault(); 一般能阻止主流主流浏览器dom0与dom2都行
+
+	   4、全  局 捕 获  setCapture()
+	      取消全局捕获  releaseCapture()
+	   obj.setCapture();	//设置全局捕获 ，当我们给一个元素设置全局捕获以后，那么这个元素就会监听后续发生的所有事件，当有事件发生的时候，就会被当前设置了全局捕获的元素所触发
+	   
+	   ie : 有，并且有效果
+	   ff : 有，但是没效果
+	   chrome : 没有
+
+       例子 拖拽:
+       1、当给对象按下时  如果是ie就全局捕获
+       		if ( oDiv.setCapture ) {
+       			oDiv.setCapture();
+       		}
+       2、当抬起时 如果是ie就释放全局捕获
+            if ( oDiv.releaseCapture ) {
+            	oDiv.releaseCapture();
+            }
+
+	*/
+	
+</script>
+</html>
