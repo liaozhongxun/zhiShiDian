@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>无标题文档</title>
+<script>
+/* 原形链: __proto__ ;
+  
+   1、new出的对象就是通过原形链找到prototype值得属性和方法的
+   2、构造函数 ==> 自己的原形 ==> 最后到Object的原形
+
+*/
+
+/* 1、hasOwnProperty 这个属性时在object.prototype下的
+
+//hasOwnProperty : 看括号里的属性或方法是不是对象自身下面(相当于构造函数下的 prototype下的不算)的属性 
+
+var arr = [];
+arr.num = 10;
+Array.prototype.num2 = 20;
+
+alert(  arr.hasOwnProperty('num')  );  //true
+
+alert(  arr.hasOwnProperty('num2')  );  //false
+*/
+
+/* 2、constructor : 查看对象的构造函数
+      
+      该属性是每个函数自动生成的 默认指向构造函数
+      如果在prototype上直接以json的方式值 最后先该下其指向 不然就执行Object
+*/
+
+/* 3 、instanceof : 对象与构造函数在原型链上是否有关系
+
+        它是一个运算符
+   
+        arr instanceof Array;返回true 和 false 最高级是Object
+
+*/
+/* 4、toString() : 系统对象下面都是自带的, 自己写的对象都是通过
+                   原型链找object下面的
+
+   var arr = [];
+   alert( arr.toString == Object.prototype.toString ); //false
+
+   function Aaa(){
+   }
+   var a1 = new Aaa();
+   alert( a1.toString == Object.prototype.toString );  //true
+
+   toString的作用:
+   1、把对象转成字符串 arr.toString();
+
+   2、如果数值可以进行数字的转化  num.toString(16); (不知道十六
+      进制能不能转化为其他进制)
+
+   3、利用toString做类型的判断(推荐 其他两也没什么问题 当利用iframe时 前两个会出现问题) 
+
+      用法:
+
+          alert( Object.prototype.toString.call(arr) == '[object Array]' );  //true
+
+          查看变量arr的类型
+
+*/
+
+
+
+</script>
+</head>
+
+<body>
+</body>
+</html>
