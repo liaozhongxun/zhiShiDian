@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>try catch</title>
+</head>
+<script type="text/javascript">
+/*
+    //在if中 条件为true是正常 false是走else
+    //try catch 中:不报错走上边  报错才走下边
+	try{
+		  document.attachEvent("oncontextmenu",function(ev){
+		 	return false;
+		  })
+    }
+	catch(e){
+		alert("非ie");
+		alert(e);//e为错误信息
+	}
+*/
+
+/* 自定义错误
+try {
+   throw new Error("Whoops!");//自定义错误 错误信息是 whoops!
+} catch (e) {
+   alert(e.name + ": " + e.message);
+   alert(e.message); //错误信息
+   alert(e.name);//错误名
+}
+*/
+
+// onerror事件；
+
+/*
+	 基本有这六种错误
+	 EvalError:当一个错误发生时执行代码在eval()
+	 RangeError:长大当一个数值型变量或参数是其有效范围之外的
+	 ReferenceError:长大当取消无效的参考
+	 SyntaxError:当发生语法错误解析代码在eval()
+	 TypeError:长大当一个变量或参数不是一个有效的类型
+	 URIError:长大当encodeURI()或decodeURI()无效的参数传递
+*/
+
+	
+</script>
+</html>
