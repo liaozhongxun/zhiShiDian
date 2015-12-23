@@ -1,0 +1,163 @@
+1、childNodes : 获取元素的所有子节点
+     
+      非标准IE : 之获取元素节点
+      
+      标准主流 : 获取所有节点
+
+      ie7及以下不支持非法嵌套
+
+2、nodeType : 共 12 种
+ 
+      nodeType  1  元素节点
+    
+                2  属性节点
+
+                3  文本节点
+
+3、attributes ：获取元素属性集合(包括自定义属性)
+
+     标准主流 + ie8: 正常
+ 
+     ie7及以下 : 不正常
+
+4、children : 只读 属性 元素节点列表集合
+
+	标准下   ：只包含元素类型的节点
+
+	非标准下 ：只包含元素类型的节点
+
+5、firstChild : 只读 属性 第一个子节点
+
+        （存在如果一个元素节点都没有的问题）
+
+	标准下：firstChild会包含文本类型的节点
+
+	非标准下：只包含元素节点
+
+   firstElementChild : 标准下获取第一个元素类型的子节点(非标准ie没有该属性)
+
+6、lastChild :
+
+   lastElementSibling : 问题同上
+
+7、nextChild :
+
+   nextElementSibling ：问题同上
+
+8、previousSibling :
+
+   previousElementSibings ：问题同上	
+
+9、parentNode :  当前节点的父级节点(兼容所有浏览器)
+
+10、offsetParent : 当前元素有定位的父级
+
+       自身没定位时 : 父级都没定位默认指向body
+
+                      如果当前元素的父级触发 layout特性 它的offsetParent就是那个父级  
+
+       自身有定位时 : 父级都没定位
+
+                         标准 + ie8 ：默认指向body
+
+                         ie7以下 : 指向html
+
+
+特殊情况:ie7及以下存在layout特性(以前用来清除浮动什么的)
+
+         给元素设置 zoom: 1;触发元素的layout特性
+
+         以当前元素.currentStyle.hasLayout  的值判断是否触发元素的layout特性
+
+         如果当前元素的父级触发 layout特性 它的offsetParent就是那个父级  
+
+11、offsetLeft || offsetTop : 
+
+         自身有定位时 : 如果有定位的父级都指向有定位的父级 父级没定位都指向html
+
+         自身没定位时 : 标准 + ie8 : 是指向有定位的父级
+
+                        ie7及以下 : 是指向body
+
+12、宽高 : oDiv.style.width   自身宽度(不包括padding border margin)  只能获取行间的宽
+
+           oDiv.clientWidth   包括padding的宽度
+
+           oDiv.offsetWidth   包括边框的宽度
+
+           扩展 : 获取行间样式 
+   
+                 function getStyle(obj,attr){
+	              if (obj.currentStyle) {
+		          return obj.currentStyle.width;//"ie"
+	              }else{
+		          return getComputedStyle(obj,false).width;//"非ie"
+	              }
+                 }
+
+           扩展 : 获取元素到口的距离
+
+                 function getPos(obj){
+	 	     var pos = {left:0, top:0};
+		 
+	 	     while (obj) {  知道obj不存在为止
+	 		pos.left += obj.offsetLeft;
+	 		pos.top += obj.offsetTop;
+	 		obj = obj.offsetParent; 
+	 	     }
+		
+	 	     return pos;
+
+	         }
+	         alert(getPos(oDiv3).top);
+
+
+
+13、操作元素属性的方式 
+
+    1、obj.value="";
+
+       obj["value"]=""; 如果属性是通过变量传的话就要用这种方发
+
+       获取图片的src会自动转化成绝对路径
+
+       这类方法只能获取和设置元素固有属性 在非标准ie下能操作元素的自定义属性
+
+    2、getAttribute("属性") 获取元素指定属性的值
+
+       setAttribute("属性","值") 设置元素指定属性的值
+
+       removeAttribute("属性")  移除指定的元素的指定的属性
+
+       可以获取图片的相对路径(除ie7及以下)
+
+       这类方法能获取和设置元素固有属性和自定义属性 (相当于jQuery的attr方法)
+
+14、创建元素
+  
+       var Li = document.createElement("li");前面必须是document
+
+       UL.appendChild(要添加的元素); 追加到页面的后面
+
+       UL.insertBefore（元素,位置(该元素前面）)  
+
+       问题 ： 
+ 
+       在ie下如果第二个参数的节点不存在，会报错
+
+       在其他标准浏览器下如果第二个参数的节点不存在，则会以appendChild的形式进行添加
+
+       兼容处理 :
+  
+       if ( oUl.children[0] ) { 
+	    oUl.insertBefore( oLi, oUl.children[0] );
+       } else {
+	    oUl.appendChild( oLi );
+       }
+
+15、父级.removeChild(要删除的节点);  必须要在父级下
+
+16、父级.replaceChild(新节点,被替换掉的节点)  父级是被替换掉的节点的父级
+
+         
+    
