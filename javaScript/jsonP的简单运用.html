@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+	    *{
+	    	margin:0px;
+	    	padding:0px;
+	    }
+	    form{
+	    	position: relative;
+	    	margin:10px;
+	    }
+		form input{
+			width:200px;
+			height:20px;
+		}
+		form ul{
+			position: absolute;
+			top: 23px;
+			left: 0px;
+			border:1px solid #f00;
+			width: 202px;
+			display: none;
+		}
+		form ul li{ 
+            list-style: none;
+		}
+		form ul li:hover{
+			background: #000;
+			color:#fff;
+		}
+	</style>
+</head>
+<body>
+    <form id="FORM">
+	   <input type="text" name="text">
+	   <ul id="oUl">
+	   </ul>
+    </form>
+</body>
+    <script type="text/javascript">
+    	window.onload=function(){
+    		var form=document.getElementById("FORM");
+    		var oUl=document.getElementById("oUl");
+    		form.text.onkeyup=function(){
+    			var script=document.createElement("script");
+    			script.src="https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su?wd="+this.value+"&cb=fn";//百度搜索链接
+    			document.body.appendChild(script);
+    		}
+    	}
+    	function fn(data){//回调函数
+    		if (data.s.length>0){
+               oUl.style.display="block";
+               var otxt="";
+               for(var i=0;i<data.s.length;i++){
+               	  if (i<11){
+	               	  otxt+="<li><a href='https://www.baidu.com/s?wd="+data.s[i]+"'>"+data.s[i]+"</a></li>"
+               	  }
+	              oUl.innerHTML= otxt;
+               }
+    		}else{
+    			oUl.style.display="none";
+    		}
+    	}
+    </script>
+</html>
