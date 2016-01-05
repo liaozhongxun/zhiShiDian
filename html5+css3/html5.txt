@@ -1,0 +1,84 @@
+HTML5新特性的浏览器支持情况:http://www.caniuse.com/#index
+
+1、html5 新增JS选择器
+
+    （1）querySelector("css3选择元素的写法");只能选择一个元素 兼容ie8及以上版本
+
+     (2) quertSelectorAll("#div");可选择复合条件的所有元素
+
+    （3）getElementsByClassName("类名");                      不支持ie8
+
+2、html5 新增属性及方法
+
+     (1) classList;（获取该元素的所有class 类数组）
+
+    （2）classList.add(),classList.remove();添加删除类
+
+     (3) classList.toggle（"class"）;如果原来已有该类就删除,没有就添加
+
+3 、json 的新方法
+
+    严格的 json 的键值都是有引号的
+
+    eval()  以前将字符串转换为js的方法 (能解析任何字符串 不安全)
+
+    parse() : 把字符串转成json，字符串中的属性要严格的加上引号(只能解析json形式的字符串)
+
+    stringify() : 把 json 转化成字符串，会自动的把双引号加上
+
+    烤被对象不会有对象的应用
+
+        var a = {
+	    name : { age : 100 }
+        };
+
+       var str = JSON.stringify(a);
+
+       var b = JSON.parse(str);
+
+       b.name.age = 200;
+
+       alert( a.name.age );  //一般要用forin加递归实现深拷贝的  这里不需要
+
+
+     新方法不支持ie67 解决方法:  http://www.json.org/  去下载json2.js引入就行了
+
+4、data自定义数据  dataset（一般用于手机端 有兼容性问题）
+
+        用法:
+
+            标签属性       js获取
+
+           data-name :  Element.dataset.name
+
+           data-name-first  :  Element.dataset.nameFirst 
+
+        原来的元素.属性只能获取元素固有属性 现在利用dataset也能获取自定义属性了
+
+5、Html5的defer和async 属性
+
+   defer : 延迟加载，会按顺序执行，在onload执行前被触发
+
+   async : 异步加载，加载完就触发，有顺序问题
+
+   要实现兼容的异步加载可以用  labjs库
+
+6、历史管理( 1 通过改变页面实现，2 通过改变hash值实现， 3 通过history实现)
+ 
+   onhashchange  ：改变hash值来管理
+ 
+   如: hash改变历史管理.html 
+
+   history  ： 如 :  pushState方法.html
+
+         服务器下运行
+
+         pushState :  三个参数 ：数据  标题(都没实现)  地址(可选)
+
+         popstate事件 :  读取数据   event.state
+
+         注意：网址是虚假的，需在服务器指定对应页面，不然刷新找不到页面
+
+
+
+

@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>无标题文档</title>
+<script>
+window.onload = function(){
+	var oInput = document.getElementById('input1');
+	var oDiv = document.getElementById('div1');
+	
+	var json = {};
+	
+	oInput.onclick = function(){//当点击按钮的时候
+		
+		var num = Math.random();//产生一个随机数
+		
+		var arr = randomNum(35,7);//显示的内容
+		 
+		json[num] = arr;//把内容给json.num属性存起来(实现历史管理时用)
+		
+		oDiv.innerHTML = arr;//先把内容输出到页面
+		
+		window.location.hash = num;//把hash值变成num
+		
+	};
+	
+	window.onhashchange = function(){//当hash值发生改变时
+		
+		oDiv.innerHTML = json[window.location.hash.substring(1)];
+		//window.location.hash.substring(1);当前页面的hash值
+		//把对应的值输出到页面上
+		
+	};
+	
+	function randomNum(iAll,iNow){
+		
+		var arr = [];
+		var newArr = [];
+		for(var i=1;i<=iAll;i++){
+			arr.push(i);
+		}
+		
+		for(var i=0;i<iNow;i++){
+			newArr.push( arr.splice( Math.floor(Math.random()*arr.length) ,1) );
+		}
+		
+		return newArr;
+		
+	}
+	
+};
+</script>
+</head>
+
+<body>
+<input type="button" value="随机选择" id="input1">
+<div id="div1"></div>
+</body>
+</html>

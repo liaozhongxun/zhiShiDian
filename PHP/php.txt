@@ -1,0 +1,13 @@
+--如何屏蔽notice错误:
+
+      在错的那段前加@
+     
+      在php标签下 error_reporting（E_ALL ^ E_NOTECW）;
+
+--结束页面html页面信息：
+
+    1、$data = $_REQUEST["name"];
+
+//函数名不需要加$;
+
+//php函数形参有几个 实参也要有几个 不然国有警告错误

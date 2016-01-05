@@ -1,0 +1,588 @@
+﻿一、以单个文件的形式 通过require_once url等的方式引入php页面  命名规范 ClassName.class.php;
+
+二、构造方法：每个类都一个构造方法,如果你没写系统会自动加一个空的
+
+三、格式 
+
+     class ClassName{
+
+         权限 成员属性/成员方法;
+
+         public  $name;
+       
+         public function count(){
+
+             $this->name="改名";
+
+         };
+
+         //构造函数:
+
+              注意:1、实例后构造方法自动调用，没有返回值  2、构造方法每种方式的只能有一个(如果有多个的话优先调用__construct)
+
+                                                             类名定义方式放后面(解决php4项目兼容问题)
+
+                   3、使用__construct方式广(类名改了 不用去改构造函数名)
+         
+         public function ClassName/__construct($name){
+
+             $this->name=$name;//直接给新对象名
+
+         
+         }(php4中只能用类名)
+
+     }
+
+     调用:
+
+     $shili=new ClassName();（括号可以没有）;
+
+     外面设置属性:
+
+     $shili->name="雷伊";
+
+     $shili->count();
+
+-----------------------------------------------------------------------------------------
+
+四、析构方法 __destruct()(php5后才有)
+
+析构方法的作用主要用于，释放资源(比如释放数据库的链接，图片资源...销毁某个对象..)
+
+快速入门
+
+<?php
+	
+	class Person{
+		
+		public $name;
+		public $age;
+		public $conn;
+		
+		//构造方法
+		public function __construct($name,$age){
+			$this->name=$name;
+			$this->age=$age;
+			//打开一个$conn链接数据库的资源
+		}
+
+		//写一个析构方法 __ 是两个下划线
+ 		function __destruct(){
+			echo $this->name."销毁资源 关闭数据库..<br/>";
+		}
+
+	}
+
+	$p1=new Person("贾宝玉",16);
+	$p2=new Person("林黛玉",14);
+
+?>
+
+运行代码我们得出:
+1.析构方法会自动调用
+2.析构方法主要用于销毁资源
+3.析构方法调用顺序是，先创建的对象后被销毁
+4.以下条件执行后会立即执行析构函数中的代码
+
+    (1)当程序（进程结束）退出时
+    (2)当一个对象为垃圾对象的时候，该对象的析构方法也会被调用,
+    (3)所谓垃圾对象，就是指，没有任何变量再引用它.
+    (4)一旦一个对象成为垃圾对象，析构方法就会立即调用
+
+
+小结:
+①php5加入的的析构方法function __destruct() 
+②析构方法没有返回值
+③主要作用是释放资源的操作，并不是销毁对象本身。
+④在销毁对象前,系统自动的调用该类的析构方法   
+⑤一个类最多只有一个析构方法。
+
+----------------------------------------------------------------------
+五、静态变量(类变量)
+
+定义:静态变量是该类所有对象共享的变量,任何一个该类的对象去访问 修改它都是同一个变量
+
+     正常:对象的一个属性指向一个地址 地址有他指向的值
+
+     静态:对象的一个属性指向一个地址 每一个对象的这个地址都指向同一个地址
+
+怎么定义:访问修饰符 static 变量名;（可直接赋值  定义全局变量不能直接赋值）
+
+使用:  1、在类外部 类名::$类变量名 或者 对象名::$类变量名
+
+       2、在类内部 类名::$类变量名 或者 self::$类变量名
+
+
+解法:
+       class Child{
+		
+		public $name;
+		//这里定义并初始化一个静态变量 $nums
+		public static $nums=0;
+		function __construct($name){
+			
+			$this->name=$name;
+		}
+
+		public function join_game(){
+			
+			//self::$nums 使用静态变量
+			self::$nums+=1;
+
+			echo $this->name."加入堆雪人游戏"; 
+			
+		}
+
+
+	}
+
+	//创建三个小孩
+
+	$child1=new Child("李逵");
+	$child1->join_game();
+	$child2=new Child("张飞");
+	$child2->join_game();
+	$child3=new Child("唐僧");
+	$child3->join_game();
+
+	//看看有多少人玩游戏
+	echo "<br/> 有这".Child::$nums;//3
+        echo ++Child::$nums;//7
+
+   ------------------------
+
+
+   静态方法(类方法)
+
+   在我们编程中，静态方法只能操作静态变量
+ 
+                 普通的成员方法,既可以操作非静态变量,也可以操作静态变量
+
+
+注意:1、静态变量是属于类的 不依赖与new出来的对象（没有对象是可通过类名访问）
+
+     2、加上static就成为类变量或静态变量，否则就是实例变量
+
+     3、类变量是与类相关的公共变量
+
+     4、实例变量是属于每个实例个体的属性(相当于js构造函数的属性)
+
+
+//当一个功能需要所有对象共享的时候 就要使用静态变量 方法;
+
+--------------------------------------------------------------------------
+六、封装 继承 多态（面向对象的三大特征 此外还有抽象）
+
+   1、抽象是一种解决问题的方法程序设计的一种思维想法
+
+      定义一个类需要完成相应的功能 你给这个类加相应的方法和属性就行了
+
+      就像你不要给boolean类型 同级的方法(虽然可以但是不好 )
+
+   2、封装
+
+      (1) 封装就是把抽取出的数据和对数据的操作封装在一起，数据被保户在内部，程序的内部只能通过被授权的操作（成员方法）才能对数据进行操作
+  
+     （2）访问修饰符
+
+          public       表示全局公开的，类的内部 外部 子类都能访问;
+
+          protected    表示受到保户的，只有本类或子类能访问
+
+          private      表示受到保户的，只有本类内部能使用
+
+     （3） 外部要访问或修改被保护的变量 可以通过  getAttr与setAttr等方法实现
+
+      (4)  可以通过 在类中 __set  和 __get方法来操作我们的变量,私有变量都能在外面使用了(不推荐)
+
+   3、继承  class ChildClass extends ParentClass{}
+
+       调用父类的方法	类名::方法名()  4.2 parent::方法名()
+
+    代码:
+
+	//应用场景 开发一套学生管理系统(Pupil, Graduate , ...)
+	//父类
+	class Stu{
+		public $name;
+		protected $age;
+		protected $grade;
+	
+		public function showInfo(){
+			
+			echo $this->name;
+		}
+
+	}
+	//子类
+	class Pupil extends Stu{
+		
+		public function testing(){
+			echo " 小学生考试..";
+		}
+
+	}
+
+	class Graduate extends Stu{
+		
+		public function testing(){
+			echo "研究生考试..";
+		}
+	}
+
+	//创建学生
+	$stu1=new Pupil();
+	$stu1->name="小明";
+	$stu1->testing();
+	$stu1->showInfo();
+	//创建一个研究生
+	$stu2=new Graduate();
+	$stu2->name="老明";
+	$stu2->testing();
+	$stu2->showInfo();
+
+        所谓继承就是 一个子类 通过 extends  父类  把父类的 (public / protected)属性和(public / protected)方法继承下来.
+
+        继承的基本语法是:
+
+        class 类名 extends 父类名{
+	      //在写自己需要的属性和方法.
+        }
+
+举例 
+class A{
+		public $n1=90;
+		//构造方法
+		public function __construct(){
+			
+			echo "A __construct";
+		}
+
+	}
+
+	class B extends A{
+		
+		function __construct(){
+			echo "B __construct";
+			//显式的调用父类的方法
+			//A::__construct();
+			parent::__construct();
+		}
+ 
+	}
+
+	//创建B对象实例
+
+	$b=new B();
+
+5. 当一个子类的方法和父类的方法完全一样(public protected), 我们称为 方法的覆盖 (方法重写)
+
+     4、多态
+
+          (1) 方法重载(php5还不支持 但是能通过特殊方式实现 __call方法)
+
+                 函数重载是通过参数的个数不同，或参数类型不同来区分多个同名的函数
+
+
+	         class  A{
+
+		       public function test1($p){
+			    echo "接收一个参数";
+		            echo "<br/>接收到参数是";
+			    var_dump($p);
+
+		       }
+		       public function test2($p){
+			    echo "接收两个参数<br/>";
+			    var_dump($p);
+		       }
+		
+
+		       //这些提供一个__call 
+		       //__call 是它一个对象调用某个方法，而该方法不存在，则
+		       //系统会自动调用__call
+
+
+		       function __call($method,$p){
+			    var_dump($p);
+			    if($method=="test"){
+				if(count($p)==1){
+					$this->test1($p);
+				}else if(count($p)==2){
+					$this->test2($p);
+				}
+			    }
+		        }
+
+                        当text方法不存在时，系统调用__call方法,第一个参数是不存在的函数名，第二个参数是一个存参数的数组
+
+                        这里让当函数名是test时，当参数是一个时调用test1() ,当参数为两个时调用test2()
+
+
+	         }
+
+	         $a=new A();
+	         $a->test(1);
+	         $a->test(56,90);
+	
+
+                 小结: 关于重载
+                 ① php5 默认情况下不直接支持方法重载
+                 ② php5 可以同__call魔术方法，模拟一个方法重载的效果.
+
+         （2） 方法重写/方法覆盖
+ 
+               1、方法覆盖是你继承了父类的一个方法，你需要同样的方法名实现不同的内容，就在本类中在定义同名的方法;
+
+               注意：函数名与参数个数必须一样; 不然就是重新声明
+
+                     如果子类要去调用父类的某个方法(public / protected) 则可以使用 parent::方法名(参数..) , 父类名::方法名(参数...)
+
+                     在实现方法覆盖的时候，访问修饰符可以不一样	//但是必须满足: 子类的访问范围>=父类的访问范围
+
+          (3) 当子类没有覆盖父类的方法则 $cat1->cry() 调用的是父类,当 子类覆盖了父类的方法，则调用自己的cry();
+
+              一种对外接口通过输入的参数不同实现多种状态 例子:
+
+              
+<?php
+class employee{//定义员工父类
+protected function working(){//定义员工工作，需要在子类的实现
+echo "本方法需要在子类中重载!";
+}
+}
+class painter extends employee{//定义油漆工类
+public function working(){//实现继承的工作方法
+echo "油漆工正在刷漆！/n";
+}
+}
+class typist extends employee{//定义打字员类
+public function working(){
+echo "打字员正在打字！/n";
+}
+}
+class manager extends employee{//定义经理类
+public function working(){
+echo "经理正在开会！";
+}
+}
+function printworking($obj){//定义处理方法
+if($obj instanceof employee){//若是员工对象，则显示其工作状态
+$obj->working();
+}else{//否则显示错误信息
+echo "Error: 对象错误！";
+}
+}
+printworking(new painter());//显示油漆工的工作
+printworking(new typist());//显示打字员的工作
+printworking(new manager());//显示经理的工作
+?> 
+
+       5、抽象类 (一般都是顶级父类只负责继承东西给子类的对象 如动物类  交通工具类类似的)
+
+          abstract class Animal{
+
+		public $name;
+
+		protected $age;
+
+		//这个方法没有方法体,这个方法主要是为了让子类去实现
+
+		abstract public function cry();
+	  }
+   
+          注意: 抽象类与抽象方法以 abstract 修饰
+
+                抽象方法不能有方法体(因为它是不需要执行的只是拿来继承给子类)
+
+                抽象类不能被实例化
+
+                一个类中只要有一个抽象方法 这个类一定要是抽象类，但是抽象类不一定要有抽象方法
+
+                一个类继承了抽象类，要么这个类也是抽象类，要么它必须实现父类的所有抽象方法
+
+        6、接口
+
+         <?php
+	
+	   //使用程序模拟现实情况
+	   //定义规范(方法/属性)
+	   interface iUsb{	
+		public function start();
+		public function stop();
+	   }
+
+	   //编写相机类，让它去实现接口
+	   //1.当一个类实现了 某个接口,则要求该类必须实现这个接口的所有方法
+	   class Camera implements  iUsb{
+		
+		public function start(){
+			echo "相机开始工作";
+		}
+		public function stop(){
+			echo "相机停止工作...";
+		}
+	   }
+
+	   //编写手机类
+	   class Phone implements iUsb{
+		public function start(){
+			echo "手机开始工作";
+		}
+		public function stop(){
+			echo "手机停止工作...";
+		}
+	   }
+
+        ?>
+
+         1.接口的使用基本语法
+
+         interface 接口名{
+	    //常量属性
+	    //方法
+         }
+
+         class 类名 implements 接口名1,接口2.{
+
+         }
+
+        什么情况下可以考虑使用接口
+        1、当多个类 ，他们之间是平级的关系. 这些类都会去实现某个功能，只是实现的方式不一样时
+        2、定规范
+           定下规范，让别的程序员来实现,比如:
+	   //学生管理系统 (students)
+	   //定义接口
+	   interface StuManageInterface{
+		
+		public function addStudent($stu);
+		public function delStudent($id);
+		public function updStudent($stu);
+	   }
+ 
+
+接口的细节
+1、不能去实例化一个接口
+2、接口中的所有方法，都不能有方法体
+3、无论是 extends 还是 implements 后面只要是接口名 就能有多个
+4、接口中可以有属性,但是必须是常量,并且是public
+     interface iUsb{
+	const A=90;
+     }
+
+5、接口的方法只能是public,默认就是public;
+6、一个类必须实现其实现的接口中所有的方法(参数也要一样)
+7、接口它的作用就是 声明一些方法，供其它类来实现. 接口还体现编程中我们希望的效果 高内聚低耦合 的特点
+
+继承和实现接口的比较:
+
+连写: class A extends Afather implements QitaFun{}
+
+     A类天生就有After的属性和功能，但是不够用就扩展了QitaFun的功能
+
+(1)可以认为 实现接口是对单一继承的补充.
+(2)可以在不破坏类层级关系的前提下，对某个类功能扩展.
+
+
+final关键字
+
+   1、用于类: 该类不予许被继承 如: final class Cat{};
+
+   2、用于成员方法: 该函数不予许被修改 如: final public function Ca{};
+
+   3、不能用于成员属性
+
+const关键字
+
+   1、成员属性不希望被修改 用const关键字  
+
+          定义  const 常量名=常量值(常量名不需要$ 一般为大写)
+
+          使用 外 : 类名::常量名 或 接口名::常量名
+
+               内 : 类名::常量名 或 接口名::常量名 或 self::常量名（这种方式还一个是用于访问静态方法和属性）
+
+          conts 前面不要加修饰符
+
+   2、在全局还能用define("A",90);的写法定义常量
+  
+             
+
+              
+
+
+
+
+
+
+
+ 
+      
+
+
+=============================================================================
+
+魔术方法与魔术常量  http://www.cnblogs.com/adforce/archive/2011/09/13/2174928.html
+
+1、魔术方法:
+
+       __get()、__set()  //读取一个对象的属性时，若属性存在，则直接返回属性值； 若不存在，则会调用该函数。 是私有变量都能在类外获取与设置
+
+       __construct() //构造函数
+
+       __destruct()  //析构方法 但资源回收时执行
+    
+       __call()   //php中模仿方法重载
+
+       __toString() //当打印一个对象的时候被调用，这个方法类似于java的toString方法，当我们直接打印对象的时候回调用这个函数。
+
+              class Test { 
+
+                   public function __toString(){ 
+
+                       return "打印 Test"; 
+
+                   } 
+             } 
+
+             $t = new Test(); 
+
+             echo $t; //打印 Test
+
+2、魔术常量
+
+       __LINE__  // 返回文件中的当前行号
+
+       __FILE__  // 当前文件的绝对路径
+
+       __DIR__  //当前文件夹绝对路径
+
+       函数中
+
+       __FUNCTION__ // 返回函数名称; 自 PHP 5 起本常量返回该函数被定义时的名字（区分大小写）。在 PHP 4 中该值总是小写字母的。
+
+       __CLASS__ //返回该常量所在类的名称; 自 PHP 5 起本常量返回该类被定义时的名字（区分大小写）。在 PHP 4 中该值总是小写字母的。
+
+       __METHOD__//返回类的方法名 ; 返回该方法被定义时的名字（区分大小写）。 格式：类名::方法名
+
+ 
+
+=============================================================================
+
+构造方法的注意事项
+
+(1)一旦自定义了一个构造函数，默认的
+构造函数就被覆盖了,这时在创建对象的时候就要使用自定义的构造函数.
+(2)一个类只能有一个构造函数.(不能重载)
+
+构造方法的8点说明:
+①构造方法名和类名相同(php4版),php5版的构造方法
+名可以和类名相同，也可以是__construct() 
+②构造方法没有返回值
+③主要作用是完成对新对象的初始化，并不是创建对象本身。
+④在创建新对象后,系统自动的调用该类的构造方法   
+⑤一个类有且只有一个构造方法,在php5后虽然__construct()  和 类名() 可以共存，但是实际上也只能使用一个。
+⑥如果没有给类自定义构造方法，则该类使用系统默认的构造方法。
+⑦如果给类自定义了构造方法，则该类的默认构造方法被覆盖。
+⑧构造方法的默认访问修饰符是public
+
