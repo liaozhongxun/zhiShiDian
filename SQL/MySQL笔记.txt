@@ -1,0 +1,154 @@
+1、数据库的分类基本分为四大类(sql结构化查询语言)
+ 
+   ddl 定义数据库结构
+
+       create  -在数据库中创建对象
+
+            create database 数据库名; 创建一个数据库
+
+            创建一个表格结构
+
+            create table 表名（
+
+                 字段名1 字段类型 能不能不保存数据  主(外)键 是否有默认值，
+
+                 字段名2 字段类型，
+
+            ）
+
+       alert   -修改表的结构
+
+            修改表名
+
+                 alert table 表名 rename 新表名;（数据库是不予许改名的 旧版本有一条命令可以 但是现在不能用了）
+            
+            添加一列或字段(也就是一列数据的属性)
+
+                 alert table 表名 add 属性 类型 。。;
+
+            删除一列(删除一个字段)
+  
+                 alert table 表名 drop column 字段名;
+
+            修改列的数据类型
+
+                 alert table 表名 modify 字段名 新类型;
+
+            重命名一个类
+
+                 alert table 表名 change column 旧列名 新列明 数据类型;
+
+ 
+
+
+       drop    -删除对象
+
+            droq database 数据库名; 删除一个数据库
+
+            drop table 表名 ;删除一个表;
+
+       rename  -重命名对象
+
+   dml 操作数据库内容
+
+       select  -从数据库中获取数据
+
+            select 列名称 from 表名 ？ where 列 运算符 值 order by  字段 desc(降序)，后字段 asc(升序);
+
+                                                     得到多条结果   按该字段降序     如果相同按后字段升序(默认)               
+ 
+                                        如   字段1  =   3 查询字段1为3的行
+
+                                                    <> 不等于
+
+                                                    between  在某个范围
+
+                                                    like  搜索某种模式
+
+                                      where 后面可跟一个或多个条件  用 and 或 or链接
+
+            select * from 表名;查询整个表
+
+            select 字段1、字段2 from 表明;查询这两个字段的信息
+            
+            select distinct 列名称 from 表名; 将查询的重复结构唯一话
+
+       insert  -在一个表格中插入数据
+
+             insert into 表名 values(该表有几个字段就要写几个字段值);
+
+             insert into 表名(字段1、字段2) values(两个对应的值)  该行其余字段用null代替
+
+       update  -更新一个表格中原有的数据
+
+             update  表名称 set 要改的列名称 = 新值 where 条件（如id=3 这里通常是唯一的）;
+
+       delete  -删除表中的数据
+
+             删除表
+
+             delete from 表名 where id = 5 ;
+
+             delete * from 表名;
+
+                             
+
+   dcl 控制数据库的一些权限
+
+       grate   -赋予一个用户对数据库或对表格等指定权限
+
+       revoke  -删除一个用户对数据库或对表格等的指定权限
+
+   tcl 数据库的一些事物特性
+
+       commit  -保户数据操作
+
+       savepoint -为反比 。。。。back标记一个事物点
+
+       rollbacx  -从最后一次commit中恢复到提交的状态
+
+
+2、数据库的链接
+
+          mysql -u root -p  默认链接到本地
+
+          mysql -u root (无密码的登入  -p表示要输入密码)
+
+          mysql -h locahost || 远程主机 -u root -p
+
+   -常用命令
+
+       查看数据库
+
+            show database;
+
+       选择数据库
+
+            use 数据库名
+
+       查看表的结构
+
+            describe 表名
+
+            desc(简写)
+
+        查询用户  
+
+             select host，user，password from mysql.user;
+
+        设置密码
+
+             SET PASSWORD for "用户名"@"主机"=password("密码")
+
+        退出
+
+             quit
+
+        删除匿名用户
+
+             DROP USER ''@'匿名主机'
+
+
+
+            
+  
