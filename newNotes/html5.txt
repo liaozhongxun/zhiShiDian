@@ -1,0 +1,52 @@
+1、html5语义化标签一些低版本浏览器兼容  
+
+   （1）document.creatElement("header") 创建该元素
+
+   （2）引入js文件  newNotes\相关文件\html5\html5shiv.js
+
+2、placeholder  :  输入框提示信息
+
+   autocomplete  :  是否保存用户输入值 默认为on，关闭提示选择off
+
+   autofocus  :  指定表单获取输入焦点
+ 
+   ev.preventDefault()  新的阻止默认事件
+
+   obj.dataset.aa  得到自定义属性data-aa 的值  部分不支持ie890  open mini
+
+   obj.dataset.aaBb              data-aa-bb
+
+   http://www.caniuse.com/#index  新特性标签属性的与浏览器的支持程度
+
+3、js原生新选择器
+
+   （1）document.querySelect(".类 #id")  //不支持ie67  切只能选中一组中的第一个元素  
+
+   （2）document.querySelectAll(".类 #id")  //不支持ie67  可选中多个  一次只能操作一个
+
+   （3）document.getelementsByClassName("类名") ////不支持ie678  只能操作类
+
+   （4）oDiv.classList   //以类数组的方式获取对象的所有类 //不支持ie
+ 
+         oDiv.classList.add("class")  remove() toggle("")  等方法
+
+4、json操作  (解析字符串)
+                      
+   eval(); 可解析字符串 字符串中的代码可解析为可执行代码  不安全可解析任何字符串
+
+   JSON.parse(str);  只能解析严格json形式的字符串  '{"name":"value"}'   不支持ie67
+
+   JSON.stringify（str）;将代码转化为json; 转为字符串
+
+   去json官网上下 json2.js  引入兼容所有浏览器
+
+   可拥有应用对象赋值带有引导关系  先转换为字符串 在解析给变量二就行了
+
+5、js加载
+
+   外部文件加defer="defer"  延迟加载 延迟到页面加载结束onload执行前  (跟在页面地端引入文件一样)
+
+             async="async"  异步加载  加块速度
+
+
+
