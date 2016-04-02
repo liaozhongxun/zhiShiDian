@@ -1,0 +1,214 @@
+1、兼容某些浏览器低版本  -moz-transition:1s    js:MozTransition
+
+//=========================选择器
+
+2、属性选择器 含有属性 = ~=（必须单独的空格隔开的） ^= $= *=（含有该值就行） |= (只有后面的值或值加—)
+
+3、选中对象父级下第n个子元素(所有元素)
+
+   nth-child(2n)  得到当n为0到n是得到的元素
+
+   p:nth-child(2);得到的是p标签的父级下第二个子节点(如果第二个子节点不是p就不能实现操作了) 
+
+   p:nth-last-child(2); 选择倒数第二个  
+
+   p:first-child{};
+
+   p:only-child{}  找到没有兄弟节点的p标签(不包括文本节点)
+
+   p:only-of-type{}  找到兄弟类型没有p的p标签(不包括文本节点)
+
+   选中对象父级下第n个选择类型的标签(仅仅包括冒号前选择的类型)
+
+   p:nth-of-type(2); 从前
+
+   p:nth-last-of-type(2);从后
+
+   p:first-of-type{};
+
+   找到没有子节点的元素(包括文本节点)  p:empty{}
+
+4、伪类选择器
+
+   :target{} 改变hash值与选择元素id相等的元素
+
+   表单伪类
+
+   input:enabled{}  选择可编辑的input
+
+   ipnut:disabled{} 选择不可编辑的input
+
+   input:checked{} 选择的表单元素
+
+         input:checked~span{}  操作选择的input元素兄弟节点
+
+   文本伪类
+
+   p:first-lien{} 操作p下面的第一行文字
+
+   p:first-letter{} 操作p下面的第一个文字
+
+   p::selection{} 设置在页面中选中文字是的样式
+
+   p:before{ content:"添加的内容";添加内容的样式} (这个用双冒号不支持ie8)
+
+   p:after{ content:"MiaoV";width="100px"}
+
+   h1:not(.h2){} 选择所有的h1 但是不包括class是h2的
+
+   
+
+5、兄弟选择器
+
+   p~h1  选择p标签后的所有h1标签
+
+//============================================新增文本属性
+
+1、  rgba、text-shadow:0px 0px 模糊程度 扩展大小 颜色，第二层;
+
+     direction:rtl;文字从右到左
+
+     unicode-bidi:bidi-override;(配合上使用)
+
+     一行溢出显示省略号
+
+     white-space:nowrap;overflow:hidden;text-overflow:Elipssis;
+
+     自定义字体
+
+    @font-face{
+        font-family:name; //定义规则名为name;
+        src:url(字体路径.ttf),url(字体路径.eot); 
+    }
+    div{
+        font-family:name;
+    }
+
+    多种字体格式转换 https://www.fontsquirrel.com/tools/webfont-generator
+
+//============================================弹性盒子模型
+
+  1、给要排列子元素父级加 display:-webkit-box; 或 display:-webkit-inline-box;(要加各种前缀)
+
+     -webkit-box-orient:vertical; （Horizontal 水平显示/vertical 垂直方向）
+
+     -webkit-box-direction:Normal; （Normal 正序/Reverse 反序）
+
+     -webkit-box-ordinal-group:number;(设置这个元素的具体位置)
+
+     和模型空间管理
+
+     -webkit-box-flix:number; （给子元素加 横向的:把父级宽度分为子元素number之和份，当前元素占number份）
+
+                                如果有固定宽度的 父级将减去那个宽度剩下的再去计算
+
+     富裕空间管理(给父级加的 子元素用固定宽度(px或 %) 所有子元素宽度加起来都没有父级大时）
+
+     -webkit-box-pack:Start/End/Center/Justify;（元素放在前面、后面、居中、水平分布）
+
+     -webkit-box-align:Start/End/Center;（元素放在垂直前面、垂直后面、垂直居中）
+
+2、和模型阴影
+
+   box-shadow:[inset] 0px 0px 模糊程度 扩展大小 颜色 ，第二层; (扩展大小是在元素的基础上扩展多少像素)
+
+3、倒影 -webkit-box-reflect:above|below|left|right 10px;方向 距离 渐变;
+
+  --resize:both;overflow:auto;拖拽改变窗口大小  不支持ie
+
+4、box-sizing 盒模型解析模式
+
+   Content-box  标准盒模型 width/height=border+padding+content
+
+   Border-box 怪异盒模型 width/height=content
+
+//==============================================布局
+
+1、分栏(只适用于webkit内核)
+
+  -webkit-column-width:100px;分栏的宽度
+
+  -webkit-column-count:4;限定分多少列
+
+  -webkit-column-gap:20px; 栏间距
+  
+  -webkit-column-rule:1px solid #f00; 栏间隔线
+
+2、响应式布局
+
+
+//=========================================一些属性
+
+1、border-radius,border-image，
+
+2、渐变(不支持ie89)
+
+   线性渐变
+
+   -webkit-linear-gradient(30deg||right top,red,blue,yellow) //角度或起点 ,第一种颜色，第二种颜色颜色，第三种颜色
+
+   -webkit-linear-gradient(right top,red 10%/30px,blue,yellow) //从设置的位置开始执行渐变
+
+   平铺
+
+   -webkit-repeating-linear-gradient(right top,red 10%/30px,blue,yellow) //如果结束后还有剩余的空间会平铺下去(前面的是停留在最后一种颜色)
+
+
+   经向渐变
+
+   -webkit-radial-gradient(right top,red 10%/30px,blue,yellow);（第一个参数不能写用xxdeg了）
+
+   经向渐变的参数二与参数三之间 有个可选的参数  形状||半径（ellipse、circle||10px 20px[半径有关键字形式的 火狐支持从关键字形式的]）
+
+   半径大小关键字有: 最近端，最近角，最远端，最远角，包含或覆盖 (closest-side, closest-corner, farthest-side, farthest-corner, contain or cover)
+
+   低版本ie滤镜渐变(只能设置两种颜色 方向也只有两种上下和左右)
+
+   filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff',endColorstr='#ff0000',GradientType='1/0');
+
+3、背景
+
+   （1）多背景
+
+    (2) background-size:"10px 20px";
+
+                         cover:背景覆盖整个元素（因为不会变形所有如果比例不同就会有所超出）
+
+                        contain:让元素包含整个图片(因为不会变形所以会有所超出)
+
+
+   （3）background-origin ： border-box | padding-box | content-box (其实现的是背景从哪开始的 但是左、下的padding和border还是能看到背景的)
+
+        border-box： 从border区域开始显示背景。 
+        padding-box： 从padding区域开始显示背景(默认)。 
+        content-box： 从content区域开始显示背景。
+
+
+   (4) background-clip: （只在相应的区域显示背景）
+
+       border： 从border区域向外裁剪背景。 
+       padding： 从padding区域向外裁剪背景。 
+       content： 从content区域向外裁剪背景。 
+       no-clip： 从border区域向外裁剪背景。
+
+       background-clip:text;（只给文字加背景(仅仅支持webkit内核)）
+
+
+  （5） -webkit-mask:url repeat 两个或一个背景图位置
+        
+        Mask-image
+        Mask-position
+        Mask-repeat
+ 
+
+
+
+     
+
+     
+
+
+
+
+
+   
