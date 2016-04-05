@@ -200,8 +200,146 @@
         Mask-position
         Mask-repeat
  
+//===========================================动画
+
+1、transition:1s width(要过的的样式 全部all) 运动形式  //可用关键字也能用 cubic-bezier(x1, y1, x2, y2)，cubic-bezier值可到http://matthewlein.com/ceaser/用贝塞尔曲线生成
+
+   如果多个样式且时间不同时  transition:1s 5s width，2s 1s height; 第二个时间是延迟
+
+2、过渡后执行事件
+
+   Webkit内核： obj.addEventListener('webkitTransitionEnd',function(){},false);
+   firefox: obj.addEventListener('transitionend',function(){},false);
+
+3、过渡后执行事件案例
+
+   var oBox=document.getElementById("box");
+   oBox.onclick=function()
+   {
+	this.style.width=this.offsetWidth+100+"px";
+	addEnd(oBox,end);
+   };
+   function end()
+   {
+	this.style.width=this.offsetWidth+100+"px";
+	removeEnd(this,end);
+   }
+   function addEnd(obj,fn)
+   {
+	obj.addEventListener('WebkitTransitionEnd',fn,false);
+	obj.addEventListener('transitionend',fn,false);
+   }
+   function removeEnd(obj,fn)
+   {
+	obj.removeEventListener('WebkitTransitionEnd',fn,false);
+	obj.removeEventListener('transitionend',fn,false);
+   }
+
+   因为每次改变都会触发该事件 所有执行一次后就要删除停止
+
+4、2d变换
+
+  transform
+
+  (1) -webkit-transform:rotate(50deg);  //旋转 有rotateX、Y、Z(默认);
+
+  (2) -webkit-transform:skew(50deg,60deg) //xy同上斜切
+
+                        skewX(50deg) //往x方向切
+
+                        skewY(50deg) //y方向切
+
+ （3）-webkit-transform:scale(2);扩大两倍  有scaleX、scaleY;
+
+ （4）-webkit-transform:translate(-100px,200px);transformX、Y、Z；
+
+  变换基准点  
+
+  -webkit-transform-origin:right top||10px 10px;
+
+  3d的:-webkit-transform-origin:x y z;
+
+  (5)、-webkit-transform:matrix
+  /*
+	matrix(1,0,0,1,0,0)
+	matrix(a,b,c,d,e,f);
+	progid:DXImageTransform.Microsoft.Matrix( M11= 1, M12= 0, M21= 0 , M22=1,SizingMethod='auto expand');
+	Matrix( M11= a, M12= c, M21= b , M22=d,SizingMethod='auto expand');
+	位移:
+	x:e+disX
+	y:f+disY
+	
+	缩放:
+	x轴缩放 a=x*a   c=x*c;
+        y轴缩放 b=y*b   d=y*d;
+	
+	x轴斜切: c=Math.tan(xDeg/180*Math.PI)
+	y轴斜切: b=Math.tan(yDeg/180*Math.PI)
+
+	
+	a=Math.cos(deg/180*Math.PI); 
+	b=Math.sin(deg/180*Math.PI);
+	c=-Math.sin(deg/180*Math.PI);
+	d=Math.cos(deg/180*Math.PI);
+  */
+
+       
+      
+
+5、3d变换
+
+  (1) 首先要个变换的父级设置3d空间与景深 -webkit-transform-style:preserve-3d; -webkit-perspective:100px;（景深可以看做离多远看这个元素）
+
+      -webkit-erspective- origin:right top;//在哪个角度看 默认是中间
+
+6、动画
+
+  (1) 规则(定义一个动画)
+
+     -webkit-frames move{//动画名为move
+         
+         0%{//如果不是从0%开始 那么0%就是css样式中优先级最高的样式
+            开始样式 如 width:100px;
+         }
+  
+         100%{
+            结束样式
+         }
+
+     }
+  
+   (2) 调用
+
+      给一个对象  -webkit-animation:完成所用时间(必选) 延迟时间 动画名(必选) 规定执行次数(infinite无限次) 运动形式(加速、减速等) 播放前重置;(六个参数)
+
+   (3)、播放前重置:animation-direction	
+
+        alternat 动画直接从上一次停止的位置开始执行(逢偶数次时倒序播放)
+
+        normal	动画第二次直接跳到0%的状态开始执行(默认)
 
 
+   (4)、暂停动画: -webkit-animation-play-state:paused;
+
+   (5)、动画执行后执行的函数 （动画结束对象的样式为css优先级最高中的样式）
+
+   document.getElementById("box").onclick=function()
+   {
+	this.className="box move";
+	addEnd(this,fn);
+   };
+   function fn()
+   {
+	alert("end");
+   }
+   function addEnd(obj,fn)
+   {
+	obj.addEventListener('webkitAnimationEnd',fn, false);
+	obj.addEventListener('animationend',fn, false);
+   }
+
+
+ 
 
      
 

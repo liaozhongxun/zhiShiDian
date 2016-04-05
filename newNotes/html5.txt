@@ -50,3 +50,17 @@
 
 
 
+
+==================================================
+
+LBS:基于地图信息的应用
+
+navigator.geolocation.getCurrentPosition(成功回调，失败回调，数据收集方式)
+
+navigator.geolocation.getCurrentPosition(function(){
+
+})
+
+
+
+
