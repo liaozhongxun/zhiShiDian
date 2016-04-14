@@ -1,0 +1,19 @@
+--媒体查询
+  
+  （1)、当满足某种条件是执行某某样式表<link rel="stylesheet" media="(max-width:480px)" href="样式表">
+
+   (2)、样式表中 @media(max-width:480px){执行某某样式}
+
+   (3)、媒体类型 
+
+        link链接样式表示没有用 media="type" 指定媒体类型时默认 应用于所有媒体 media="all"
+
+        指定用于打印机 media="print" 这样今年指定专门为打印准备的样式了
+
+   (4)、媒体特性 
+
+        @media(max-device-width:480px){} 如果设备宽度小于等于480像素时执行
+
+        设备方向: @media(orientation:portrait){}设备是垂直时执行;
+
+        可是窗口的宽高比:@media(aspect-ratio:3/2){}如果可是窗口的比例是3/2时执行(可以加max、min前缀)
