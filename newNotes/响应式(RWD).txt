@@ -13,7 +13,13 @@
    (4)、媒体特性 
 
         @media(max-device-width:480px){} 如果设备宽度小于等于480像素时执行
+         
+        device-height:设备的高度  height:可视窗口的高度 
 
-        设备方向: @media(orientation:portrait){}设备是垂直时执行;
+        设备方向: @media(orientation:portrait){}设备是垂直时执行; landscape 是水平方向
 
         可是窗口的宽高比:@media(aspect-ratio:3/2){}如果可是窗口的比例是3/2时执行(可以加max、min前缀)
+
+        判断设备的宽高比:@media(device-aspect-ratio:3/2){}如果设备的比例是3/2时执行(可以加max、min前缀)
+
+        @media screen and (max-resolution:150dpi){} 设备类型是screen 并且最大密度是150时的样式
