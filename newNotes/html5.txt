@@ -62,5 +62,75 @@ navigator.geolocation.getCurrentPosition(function(){
 })
 
 
+==================================================
+ canvas
+
+--画布默认宽高 300/150 在样式里设置宽高执行把画布等比例缩放了
+
+ 1、获取画布 canvas=document.getElementById（"canvas"）;
+
+ 2、设置绘图环境 cxt=canvas.getContext("2d")
+
+ 3 、绘制
+
+      1、语句
+
+    （1）填充颜色 : cxt.fillStyle="";
+
+     (2) 线条粗细 : cxt.lineWidth="";
+
+     (3) 线条颜色 : cxt.strokeStyle="";
+
+     (4) 边角样式 : cxt.lineJoin="" //miter 默认 round 圆角 bevel 斜角
+
+    （5）端点样式 : cxt.lineCap="" //butt 默认 round 圆角 square 高度多从为宽的一半
+ 
+     (6) 画与填充 : cxt.stroke(); cxt.fill();
+ 
+    （7）擦除画布 : cxt.clearRect(x,y,w,h);
+
+     (8) 保存路径 : cxt.save();
+
+     (9) 恢复路径 : cxtx.restore();  //保存与恢复之间设置的线宽与填充颜色等样式只能用于之间绘制的图形
+
+      2、画线
+
+         cxt.beginPath();
+
+         cxt.moveTo(x,y); 形状起始点坐标
+
+         cxt.lineTo(x,y); 形状后续点坐标
+
+         cxt.closePath(); //结束 还能让起始点与结束点相连接
+
+         cxt.stroke();||cxt.fill();填充
+
+     3、操作图片
+
+        window.onload = function(){
+	var oC =document.getElementById('c1');
+	var oGC = oC.getContext('2d');
+	
+	var yImg = new Image();
+	
+	yImg.onload = function(){
+		draw(this);
+	};
+	
+	yImg.src = '2.png';
+	
+	function draw(obj){
+		
+		oGC.drawImage(obj,0,0);
+		
+	}
+	
+};
+
+ 
+ 
+ 
+
+
 
 

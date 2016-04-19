@@ -1,0 +1,115 @@
+1、基本使用
+
+   <meta name="viewport" content="width=device-wdith,initial-scale=1.0">
+
+   <>
+
+   引入bootstrap的css，js文件 与jQuery文件
+
+2、网格
+
+    --分辨率（像素点的大小是没有固定的 同一个尺寸的设备房的像素点越多分辨率越大）
+
+    --分辨率的大小 (一个显示区域存放的像素的多少)
+
+   （1）网格类(*代表网格数 1-12)(网格 类的父级是 class="row")
+
+        col-xs-*  (手机 窗口分辨率小于768时使用)
+
+        col-sm-* （平板 窗口分辨率大于768是使用）(该类 当分辨率小于768时就成纵向的了) 
+
+        col-md-* （中等设备 窗口分辨率大于992是使用）
+
+        col-lg-*  (电脑 窗口分辨率大于1200时使用) 
+
+        网格类能组合使用  如果设置了 col-md-* 和 col-ms-*  如果满足md就用md不满足md时就会用ms 不满足ms时才全部纵向
+
+    (2) 容器(使用网格系统这些类要放在容器里面)
+
+        流体容器类:container-fluid   不给容器固定宽度铺满整个屏幕
+
+        固定容器类:container         给容器固定宽度
+
+                  固定宽度规则: 窗口分辨率小于 768  container固定宽度 auto
+
+                                               992                    750
+
+                                               1200                   970
+
+                                           大于1200                   1170
+
+    (3) 列偏移 (row下的 格子没全部用完的时候)
+
+        col-lg-offset-*  只能右偏移
+
+        col-lg-push-* 向右偏移 如果超出会换行
+
+        col-lg-pull-* 向左偏移 如果超出会换行
+ 
+3、工具类
+
+   下划线:class="page-header";
+
+   清除浮动:clearfix;
+
+   固定定位:affix;
+  
+   左右浮动:pull-left/right
+
+   可见类 : visible - xs/sm/md/lg - block/inline/inline-blick
+
+            hidden - xs/sm/md/lg
+
+   打印类 : visible - print - block/inline/inline-blick  //打印是才显示
+
+             hidden - print  //打印时就隐藏
+
+4、字体图标（Glyphicons）
+   
+   直接输入  <span class="glyphicon glyphicon-search"></span>
+
+             class为bootstrap官网->组件->每个小图标下的类
+
+   路径: 没写就使用默认路径 根文件夹下的font文件夹
+
+         指定路径  去把源文件中的路径改了就行了
+
+5、预定义样式风格
+
+   (1) primary（首选项）
+
+  （2）success (成功)
+  
+  （3）info (一般信息)
+
+  （4）warning (警告)
+
+  （5）danger （危险）
+
+   给一个元素加 类型 类型-样式风格
+
+   如按钮  class="btn btn-primary"
+
+   btn  bg text
+
+   alert alert-primary //警告看
+
+   例子  登录框
+
+   <div id="login" class="panel panel-primary">
+    	<div class="panel-heading">
+        	Login
+        </div>
+        <div class="panel-body">
+        	<div class="form-group">
+                <label>用户名:</label><input type="text" class="form-control">
+                <div class="alert alert-warning">用户名不能为空！</div>
+                <label>密码:</label><input type="password" class="form-control">
+            </div>
+            <a href="#" class="text-info">忘记密码?</a>
+            <input type="button" value="登录" class="btn btn-primary pull-right">
+        </div>
+    </div>
+   
+
+     
