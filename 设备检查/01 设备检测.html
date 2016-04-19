@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src="device.min.js"></script>
+</head>
+<body>
+	<h1 id="biaoti"></h1>
+
+	<script type="text/javascript">
+		var myh1 = document.getElementById("biaoti");
+		if(device.mobile()){
+			myh1.innerHTML = "哈哈，我的设备是手机~";
+		}else if(device.ipad()){
+			myh1.innerHTML = "我是土豪，我有ipad！";
+		}else{
+			myh1.innerHTML = "我就是一个台式机";
+		}
+	</script>
+</body>
+</html>
+<!--device.ipad() 返回一个布尔值(true、false)，表示用户的设备是否是ipad。
+
+device.portrait() → 检测设备是否是竖直的；
+device.landscape()  → 检测设备是否是水平的；
+device.mobile()   → 检测设备是否是手机；
+device.ipad()  → 检测设备是否是ipad；
+device.iphone()  → 检测设备是否是苹果手机；
+device.android()  → 检测设备是否是安卓手机；
+device.tablet()  → 检测设备是否是大屏幕手机（7寸以上）； -->
