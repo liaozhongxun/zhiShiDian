@@ -236,7 +236,7 @@ canvas:(画布)
   1、在样式中定义规则 再调用规则
   <style>
     @font-face{
-        font-family:name; 定义规则名为name;
+        font-family:name; //定义规则名为name;
         src:url(字体路径.ttf),url(字体路径.eot); 
     }
     div{
