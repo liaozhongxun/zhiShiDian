@@ -1,0 +1,134 @@
+==判断两个对象是否为同一个对象  
+  
+  1、object.ReferenceEquals(obj1,obj2)  //返回bool
+
+  2、obj1.Equals(obj2); //xia本质不是判断相同对象，是判断两个对象字符是否完全一样,函数内有一个判断就是方法1;
+ 
+  3、obj1==obj2   //字符串中对==函数进行了重载  里面调用方法2
+
+== sealed  密封类(类 ：不予许别人继承 ,方法:不予许重写)
+
+== virtual 定义虚方法 (可用函数体 实现多态的一种方式 如果子类没有重写时有默认方法)
+
+== override 重写 (可重写虚方法 和 抽象方法)
+
+== abstract + sealed 静态类  不能实例化也不能继承
+
+== 字符串
+
+  ---字符串不可变: 一但创建就不能改变了 所以操作字符串会创建出非常多的对象影响效率
+
+  ---字符串池:定义一个字符串 编译器先从常量池里找一遍有就返回地址，没有就新创建一个 再把地址返回，string a="ab";string="a"+"b";是相等的，如果是变量就不一样了（js不会）
+
+              针对于直接写的字符串
+
+              动态(有变量)拼接的与池无关，之后也不会添加到池中
+
+              字符串类是sealed加密的不能被继承:(1)子类对字符串写个可能会影响不可变性
+
+                                               (2)CLR对字符串提供了很多特殊操作方式，如果可以继承，CLR要对更多的类进行特殊操作，影响性能
+
+  ---字符串的格式化
+
+     string s = string.Format("{0},{1}",10,20);返回对应的字符串;
+
+     {0,50:d}{索引[,对齐||宽度][:格式]}  :中括号表示可有可无(都是针对占位符对应的内容)
+
+      :C2 C表示货币，2表示四舍五入保留两位小数
+
+== 弱引用 WeakReFerence a= new WeakReFerence(引用的对象);  
+
+   ---使用  object b= a.Target;
+
+=================================集合
+
+  1、using System.Collections;(非泛型集合)
+     
+     using System.Collections.Generic;(泛型集合)
+
+  2、集合与数组
+
+     ==数组一声明就有固定的长度 而集合不需要
+
+  3、各种集合
+
+    ==ArrayList 集合
+
+      ArrayList arraylist=new ArrayList( ||接口||初始化个数)   //三个重载 第二个重载的接口也是代表所有的集合与数组
+
+      arraylist.Count //集合的个数
+
+      arraylist.Capacity //集合容量
+
+      arraylist.Add(单个的数据类型); //添加到后面
+
+      arraylist.AddRange(所有的集合与数组);
+
+      arraylist.Insert(索引，内容);
+
+      arraylist.InsertRange();插入数组或集合
+
+      arraylist.RemoveAt(object obj) 根据对象内容删除
+
+      arraylist.RemoveAt(int index) 根据所有删除
+
+      arraylist.InsertRange()
+
+      arraylist.Clear() 清空集合
+
+      arraylist.Contains("内容");判断集合中是否包含该内容
+
+      --集合排序
+
+        arraylist.Soft() //升序
+
+        arraylist.Reverse() //反转
+
+   ==Hashtable 集合
+
+     hash.add(object key,object vaule);以键值对的方式传值
+
+     hash["键名"];得到对应的值
+
+     Remove("key") 只能根据键删除元素
+
+     --注意事项
+
+       (1) 键不能相同
+
+       (2) hash.ContainsKey("h1") //判断集合hash中是否存在h1这个键 Contains（）内部调用ContainsKey（） 两个方法看上去是一摸一样的
+
+       arraylist1.Contains(arraylist2[i]) //判断集合1是否包含集合2的元素
+
+       (3) hash.ContainsValue("h1") //判断是否有这个值
+
+       (4) 他没有下标不能要for循环变量 要用foueach
+       
+           1 按键遍历          
+    
+           foreach(var item in hash.keys){
+               Console.WriteLine("键:{0},值:{1}",item,hash[item])
+           }
+       
+           2 按值遍历 hash.Values  （但是不能得到键名）
+
+           3 直接按键值遍历
+
+           foreach(DictionaryEntry kv in hash){
+                Console.WriteLine("键{0} 值{1}"，kv.Key,kv.Value)
+           }
+
+
+      ==泛型集合 List<string>  用法跟ArrayList一样 只是多了一些方法，限定了类型
+
+      ==泛型集合 Dictionary<string，int>  用法跟Hashtable一样 只是多了一些方法，限定了类型
+
+
+=================================File类
+
+--- string[] arr=File.ReadAllLines("文件路径"，Encodeing.Default); //数组的每一个元素是文件的每一行
+=================================@
+
+==字符串前加@ 字符串的斜杠不代表转移符了
+
+      

@@ -1,0 +1,116 @@
+XML:可扩展标记语言(侧重于信息的存储，html侧重于内容的显示)
+
+   --编码:<?xml version="1.0" encoding="对应文本的编码"?>
+
+   --XML语法规范
+
+     (1) 严格区分大小写(html不区分)
+
+     (2) 只能有一个根节点(不包括语法规划)
+
+         --html原则上也只有一个根节点html(有多个的话浏览器虽然不会报错)
+
+     (3) 又开始标签必须有结束标签
+
+     (4) 属性必须要双引号引起来(虽然单引号什么的有时也不会报错)
+
+     (5) 没有预定义标签
+
+     (6) 注释和html一样<!--注释内容-->
+
+     (7) 内容如果含有尖括号不是用&nbsp，而是<![CDATA[以<这个>原因输出]]>
+
+   --XML的优点
+
+     (1) 它是一个纯文本任何平台的支持(word、excel有的平台不支持)
+
+    （2）容易读懂 可存储复杂格式的数据 可作为数据交换的一个载体(这类型数据库数据转动XML文件，再把XML文件的内容转到那个类型的数据库)
+
+   --读写XML的技术
+
+      1、 DOM[XmlDocument、XDocument] 文档对象模型，将整个xml文件加载到内存然后操作
+
+         ===============================写入=======================================
+
+          ============XMLDocument方式=======================
+
+         (1) 在内存中构建一个dom对象
+
+             XmlDocument xmlDoc=new XmlDocument();
+
+             //曾加了一个文档说明
+             
+             XmlDeclaration xmlDeclaration = xmlDoc.CreateXmlDeclaration("1.0","utf-8","yes")
+
+             xmlDoc.AppendChild(xmlDeclaration);
+
+         (2) 创建一个根元素
+
+             XmlElement rootElement = xmlDoc.CreateElement("school")
+
+             xmlDoc.AppendChild(rootElement);
+
+         (3) 创建一个属性
+
+             XmlAttribute attr = xmlDoc.CreateAttribute("id");
+
+             attr.Value="c01";//给属性赋值
+
+             rootElement.Attributes.Append(attr) //添加到元素中
+
+             rootElement.AppendChild(element) //将一个元素添加到另外一个元素中
+
+             rootElement.innerText="元素中的内容";
+     
+ 
+         (4) 将Dom对象写入到xml文件中
+
+              xmlDoc.Save("xml文件路径/文件名"); //保存在哪个路径下文件名是什么
+
+          ============XMLDocument方式结束=======================、
+
+          ============XDocument方式=======================新版本的效率更快更方便
+
+          (1) 在内存中构建一个dom对象
+
+             XDocument xDoc=new XDocument();
+
+             //曾加了一个文档说明
+
+             XDeclaration xDec = new XDeclaration("1.0","utf-8","no");             
+
+             xDoc.Declaration= xDec;
+
+
+         (2) 创建一个根元素
+
+             如果子元素还有子元素
+
+             XElement rootElement = new XElement("元素名")
+
+             如果子元素没有子元素直接代表内容了
+
+             rootElement(父节点).SetElementValue("子元素名"，"子元素内容");
+
+             xDoc.Add(rootElement);
+
+         (3) 创建一个属性
+
+             rootElement.setAttributeValue("属性名",属性值) //之间给一个元素曾加属性，切直接赋值;
+ 
+         (4) 将Dom对象写入到xml文件中
+
+              xmlDoc.Save("xml文件路径/文件名"); //保存在哪个路径下文件名是什么
+
+              MessageBox.Show("ok");
+
+          ============XDocument方式结束=======================
+
+          ===============================读取=======================================
+
+          ============XDocument方式读取=======================
+
+          ============XDocument方式读取结束=======================
+
+
+      2、

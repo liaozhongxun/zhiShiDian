@@ -98,7 +98,7 @@
 
      和模型空间管理
 
-     -webkit-box-flix:number; （给子元素加 横向的:把父级宽度分为子元素number之和份，当前元素占number份）
+     -webkit-box-flex:number; （给子元素加 横向的:把父级宽度分为子元素number之和份，当前元素占number份）
 
                                 如果有固定宽度的 父级将减去那个宽度剩下的再去计算
 
