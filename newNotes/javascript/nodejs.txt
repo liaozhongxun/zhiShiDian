@@ -1,0 +1,9 @@
+=======node命令行指令
+
+cmd中输入node回车
+
+Ctrl+c :退出
+
+cls ：清屏 
+
+node -v: 查看版本
