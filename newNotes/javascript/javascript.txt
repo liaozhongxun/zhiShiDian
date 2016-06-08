@@ -1,13 +1,92 @@
 ----------------------事件--------------------------
+关闭页面是执行: onunload
+
+本地存储事件：storage
+
 鼠标移入: onmouseover（受子集影响)  onmouseenter(不受子集影响 不兼容老版本的谷歌火狐)  
 
 鼠标移出：onmouseout(受子集影响)  onmouseleave（不受子集影响 不兼容老版本的谷歌火狐）
 
 用户输入时触发:oninput事件（不兼容ie9以下 适用范围 <input type="password">, <input type="search">, <input type="text"> 和 <textarea>）
 
-onpropertychange(ie上一样的功能)
+               onpropertychange(ie上一样的功能)
 
 注意:[该事件类似于 onchange 事件。不同之处在于 oninput 事件在元素值发生变化是立即触发， onchange 在元素失去焦点时触发。另外一点不同是 onchange 事件也可以作用于 <keygen> 和 <select> 元素。]
+
+历史记录事件：onhashchange
+
+--------滚轮事件---------
+        ie/chrome : onmousewheel
+		event.wheelDelta
+			上：120
+			下：-120
+		
+	firefox : DOMMouseScroll 必须用addEventListener
+		event.detail
+			上：-3
+			下：3
+
+兼容写法
+
+  (1)事件兼容
+
+   oDiv.onmousewheel = fn;
+	
+   if (oDiv.addEventListener) {
+	oDiv.addEventListener('DOMMouseScroll', fn, false);
+   }
+  
+  (2)使用兼容
+
+   var b = true;
+		
+   if (ev.wheelDelta) {
+	b = ev.wheelDelta > 0 ? true : false;
+   } else {
+	b = ev.detail < 0 ? true : false;
+   }
+
+   (3)阻止默认事件兼容
+
+   if (ev.preventDefault) {
+	ev.preventDefault();
+   }
+		
+   return false;
+		
+
+
+--------阻止浏览器默认行为
+
+  return false; 只能阻止ie9以下浏览器、和以上 onclick="";方式绑定的事件、obj.attachEvent('onclick',fn)方式的 这只有ie10及以下版本才有)
+  e.preventDefault(); 只能阻止ie9以上浏览器默认事件，包括 oDiv.addEventListener('click', fn, false); 方式绑定和onclick方式绑定的事件、不能阻止attachEvent方式的事件
+
+----二级dom绑定事件兼容
+
+function bind(obj, evname, fn) {
+	if (obj.addEventListener) {
+		obj.addEventListener(evname, fn, false);
+	} else {
+		obj.attachEvent('on' + evname, function() { //attachEvent兼容ie9以下的  默认this指向是window
+			fn.call(obj); //把他默认this指向改为当前对象
+		});
+	}
+}
+bind(document, 'click', fn1);
+
+--绑定事件取消
+
+   ie:detachEvent("取消的事件名称","取消的事件函数");
+
+   标准:removeEventListener("事件名称"，"事件函数","false或true");事件不带on
+
+--事件捕获
+
+obj.addEventListener(evname, fn, false);
+
+==当点击一个元素时，事件经过先从最外父级进到当前对象，在到出去父级的
+ 
+  false可以理解为事件冒泡，从子向父传递是触发fn，true可以理解为捕获，重父级向字级传递时触发
 
 ----------------------表单---------------------------
 表单：数据的提交
@@ -22,6 +101,11 @@ onpropertychange(ie上一样的功能)
 
 --后台通过name取到对应的值
 
+--表单序列化:decodeURIComponent($("#form").serialize()); //前面方法是解码  后面是序列化 也能给表单中的单个input使用
+
+             serializeArray(）//以数组的形式序列化表单
+
+
 -----------------------jsonp---------------------------
 --jsonp跟ajax无关，jsonp无跨域问题
 
@@ -35,7 +119,222 @@ onpropertychange(ie上一样的功能)
 
 --传值：后台将执行的函数替换为传进去的函数名，那样就能试试改变你想要的函数名了(如 定义一个变量接收callback的值再给个默认值)
 
-=====================================小知识点===============
+------------------------cookie--------------------------
+
+描述:可用于记住密码，判断用户是否登入cookie(登入时设置cookie，退出时清除cookie，一个事件后判断某个cookie是否存在吗，在的话怎样，不在的话又怎样)
+
+设置cookie
+function setCookie(key, value, t) {
+	var oDate = new Date();
+	oDate.setDate( oDate.getDate() + t );
+	document.cookie = key + '=' + value + ';expires=' + oDate.toGMTString();
+}
+获取cookie
+function getCookie(key) {
+	var arr1 = document.cookie.split('; ');
+	for (var i=0; i<arr1.length; i++) {
+		var arr2 = arr1[i].split('=');
+		if ( arr2[0] == key ) {
+			return decodeURI(arr2[1]);
+		}
+	}
+}
+删除cookie
+function removeCookie(key) {
+	setCookie(key, '', -1);
+}
+------------------------操作Iframe--------------------------
+
+(1)操作iframe下页面的元素
+
+   获取要操作的iframe.contentWindow.document.getElementById("id");(在谷歌或其他什么浏览器上没效果是因为没在服务器上运行) 兼容所有浏览器
+
+   获取要操作的iframe.contentDocument.getElementById("di"); 不兼容ie67
+
+(2)iframe下的页面操作外面的元素
+
+   window.parent.document.getElementById("iframe外的标签id");兼容所有浏览器 (parent 指外面一层   top 最顶层)
+
+(3)关于iframe的onload事件
+
+   iframe.onload=function(){};iframe加载完就执行函数中的内容，但是ie下要用绑定的形式 iframe.attachEvent("onload",fn); 
+
+(4) 例子 
+
+    1、防钓鱼（防止别人通过iframe连接到我们的网站）
+
+       只需在我们一开始加这样一段代码判断当前页面是不是最顶层页面，如果不是就直接把最顶层页面地址改成我们自己的地址
+
+       if(window!=window.top){
+           
+            window.top.location.href=window.locatino.href;
+
+       }
+
+
+------------------------历史管理--------------------------
+
+--最好在服务器上运行 不然肯有些浏览器上会出现一些问题
+
+1、onhashchange事件;   只不兼容ie8以下的和手机端欧朋浏览器
+
+   当hash值有变化时执行的时间
+
+   用法 （1）当执行一个事件时让 window.localhost.hash="内容";（这是只要hash值有变化就会产生历史记录管理 但是只能指定变化时做什么）
+
+        （2）当onhashchang时做一件事情时hash变化就很有用了（如当hash值变化时就或去获取当前hash值添加到页面上）
+
+         (3) 以上功能单调且把有些情况下的内容放在地址后面会很奇怪的 所以我们应该给它做一个映射
+
+         (4) 映射
+
+             4-1:新建一个空对象 var obj={};
+          
+             4-2:点hash值以改变时创建一个 随机数 var random=Math.random();
+
+             4-3:把这个随机数最外obj对象的key，obj[random]="你想要的内容";
+
+             4-5:onhashchange时在页面上添加 obj[hash值]||默认显示;（防止当最前面没有hash值得时候报错）
+
+2、HTML5的history:支持ie10及以上 Safari浏览器部分支持 移动端很多不支持
+
+   history.pushState(存入history的内容,标题(可以空着 很多浏览器都没实现),虚拟网址(可选));
+
+   --虚拟网址的作用是因为history不是通过网址改变内容的,加了虚拟网址变化时就可以把网址改变成你设置的网址（网址是假的不能直接运行）
+
+   当一个事件时: 设置 history.pushState(number,'',iNow++);
+
+   取出:window.onpopstate = function(ev){
+		var number = ev.state || '';
+		oDiv.innerHTML = number;
+	};
+
+        ev.state就是代表取出的历史内容
+
+------------------------地理信息与本地储存--------------------------
+
+--------------------------------------------------地理位置对象 navigator.geolocation
+
+   - 单次定位的方法:getCurrentPosition(请求成功回调，请求失败回调，数据收集方式（也就是一个配置参数）) //单次就是点击一次执行一次
+
+   - 多次定位方法: watchPosition（所有操作与单次的一样） 多次的点击一次后连续触发 一般用于移设备动设备
+
+                   配置参数多一个 frequency:时间  更新频率设置隔多久更新一次
+
+   - 关闭更新请求: navigator.geolocation.clearWatch(地理位置对象)
+
+   - 请求成功函数
+
+     经度 :  coords.longitude
+
+     纬度 :  coords.latitude
+
+     准确度 :  coords.accuracy
+
+     时间戳 : new Date(position.timestamp)
+
+     以下属性pc端没有
+
+     海拔 :  coords.altitude
+
+     海拔准确度 :  coords.altitudeAcuracy
+
+     行进方向 :  coords.heading
+
+     地面速度 :  coords.speed
+
+  - 请求失败回调 参数.code 显示错误代码
+
+    0  :  不包括其他错误编号中的错误
+
+    1  :  用户拒绝浏览器获取位置信息
+
+    2  :  尝试获取用户信息，但失败了
+
+    3  :  设置了timeout值，获取位置超时了
+
+ - 数据收集 :  json的形式
+
+   enableHighAcuracy  :  更精确的查找，默认false
+
+   timeout  :  获取位置允许最长时间，默认infinity
+
+   maximumAge :  位置可以缓存的最大时间，默认0
+
+   frequency: 更新间隔时长(只有多次请求方法才有)
+
+一、地理信息
+
+   1、LBS:基于地图信息的应用
+
+   2、地理位置就是南北级连接线经度和东西连接线维度的交点
+
+   3、得到地理信息的来源
+
+      （1）PC端:IP地址或WiFi无线网络
+
+      （2）移动端:GPS全球定位系统或基站
+
+
+
+------------------------------------------------------------------本地存储Storage
+
+  本地存储可以说是cookie的升级版本
+   
+  主要有三个方面:
+
+	存储量限制 ( 5M )  //存储空间大了
+
+        客户端完成，不会请求服务器处理  //可以不需要与服务器关联，只在本地完成，效率高了
+
+        sessionStorage数据是不共享(临时性的存储对象)、 localStorage共享（永久性的） //可以选择同一个浏览器多个窗口、页面是否共享数据(cookie默认是可以共享的)
+
+  本地存储对象有两个:
+  
+       sessionStorage
+
+           session临时回话，从页面打开到页面关闭的时间段
+
+           窗口的临时存储，页面关闭，本地存储消失
+
+       localStorage
+
+           永久存储（可以手动删除数据）
+
+  存储对象都有至少这4个方法:用法:window.localStorage.setItem("name","liaozhongxun");
+
+       setItem(key，value);//设置某个键
+
+       getItem(key);//获得某个键
+
+       removeItem(key);//删除某个键
+
+       clear();//删除全部
+
+  本地存储事件:storage  存储内容在当前页面改变其他页面直接出发该事件
+
+       window.onstorage=function(e){e.key};
+
+       在对数据进行改变的窗口对象上是不会触发的
+
+       key : 修改或删除的key值，如果调用clear(),key为null
+
+       newValue  :  新设置的值，如果调用removeStorage(),key为null
+
+       oldValue :  调用改变前的value值
+
+       storageArea : 当前的storage对象
+
+       url :  触发该脚本变化的文档的url
+
+       注：session同窗口才可以,例子：iframe操作  //临时存储的只能在iframe中起作用
+
+
+
+   
+
+
+===============================================================小知识点=======================================================
 
 --------------------------判断元素是否嵌套---
 
@@ -47,4 +346,22 @@ function elContains(a, b){  //判断元素b是不是元素a的子集
 
 --------------------------事件对象属性----
 
+事件对象:是当一个事件方法发生的时候存放事件与事件源的一下相关信息的
+
+         事件对象一定是在一个事件函数中调用的
+
+ie/chrome ：event 浏览器内置的
+
+ff : 要通过参数传入(其实标准浏览器都能用这种方式)
+
+兼容 var e = e||event;
+
 --e.relatedTarget; 代表从一个元素移入另外一个元素时第一个元素
+
+----------------------------------------系统方法
+
+obj.select(); //全选obj的内容(obj必须是可输入对象)
+
+fn.call();//call方法的作用是改变当前函数作用域this指向 第一个参数是让this指向什么作用于;后面的就是函数的参数
+
+            当作用域参数为null时this还是指向window

@@ -1,0 +1,211 @@
+--jQuery width/height/top/left等方法
+
+  width()           height()          //width  与原生js:offsetHeight不能获取隐藏元素的宽高
+                      
+  innerWidth()      innerHeight()     //width + padding
+
+  outerWidth()      outerHeight()     //width + padding + border   
+
+  outerWidth(true)  outerHeight(true) //width + padding + border+margin   
+
+  可以获取也能设置 如width(80)、outerWidth(80,true)
+
+  可视区尺寸:$(window).height();
+
+  页面的尺寸:$(document).height();
+
+--jQuery 默认滚动高度、距离方法
+
+  $(document).scrollTop(); 有参数为设置
+
+  offset().left   //直接指当前元素到文档的left距离  无论有无定位父级  
+       
+  left   top
+
+  position().left //指当前元素到定位父级的距离,不包括margin撑开的距离    
+
+  left   top
+
+  //原生js的offsetLeft算法是更positio().left相似 当时包括margin距离
+
+  //图片懒加载的原理:
+ 
+    先设置要懒加载的图片的src为空或默认图片路径，图片真正的路径存在一个自定义属性中
+
+    当文档滚动式判断每个图片的$("img").offset().top 值是否小于文档的$(document).scrollTop() + $(window).hieght()
+
+    如果哪个图片满足的话设置 就将这个图片的自定义属性路径设置为他的src
+
+--jQuery的事件
+  
+  ---- on方式绑定事件
+
+       --jQuery的所有事件都是绑定的形式的（一个对象的所有同样的事件可以执行不会被覆盖掉）
+
+       --$("div").click(function(){}) 与 $("div").no("click mouseover",function(){}) 两种形式是一模一样的 前面一种写法最终是调用后面写法的
+
+       --$("div").off() //取消该对象的所有事件  可以加参数取消指定事件 off()只适用于以上两种绑定事件的方法
+
+  -- return false; //记阻止默认事件有阻止事件冒泡 原生js的return false;是不能阻止绑定形式的默认事件的
+
+  ----事件委托就是把事件委托给父级(触发了父级的什么事件时让当前元素怎样怎样 e.targen表示但钱元素)
+
+      jQuery的事件委托方法 delegate  
+
+      $('ul').delegate('li','click',function(ev){
+
+    	  $(this).css('background','red');
+
+      });
+
+      -- 该方法中的this指的是委托的元素  如li
+
+      -- 如果想要得到$('ul')  就 ev.delegateTarget
+
+      -- 取消委托 $(ev.delegateTarget).undelegate();
+
+  ----命名空间
+
+      --因为jQuery中的事件都是绑定的形式的，所有可以一个对象能有很多个相同的事件,这些事件就能用命名空间划分
+
+      --设置命名空间 就是在类似on形式绑定事件的事件名后加 .命名空间名 就行了 如:$("div").no("click.aaa mouseover",function(){})
+
+      --在取消事件和触发事件时都能使用(与些地方能直接写命名空间，不需要事件名 如:off(".aaa"))
+
+  ----主动触发方法 trigger()
+
+      --$('#input1').trigger('click.aaa');  触发input1的点击事件  //好处:能使用命名空间  
+
+      --$('#input1').click() ;这两种触发方法是一样的
+
+--jQuery 的工具方法 $.xxx();
+
+  --jQuery的普通方法都是基于jQuery对象使用的方法
+
+  --工具方法不需要基于对象，它适用于jQuery对象和元素js对象
+
+  -- 常用的工具方法
+
+     $.type(jQuery对象或js原生对象);  //判断对象的类型
+
+     $.isFunction()                
+
+     $.isNumeric()               
+
+     $.isArray()                    
+
+     $.isWindow()    //判断是不是window             
+
+     $.isEmptyObject()    //判断是否为空对象
+
+     $.isPlainObject()    //判断是否为new出来的对象
+
+     -- 继承 $.extend(); 默认浅拷贝
+
+        var a={name="name"};
+
+        var b={};       
+
+        $.extend( b , a ,{data}); b继承a  ,data为扩中数据，b先继承a，让后data的数据覆盖到b中
+
+        $.extend( true ，b , a ,{data}); true代表深拷贝
+
+    $.proxy(要改变作用于的函数 ，作用域中的this指向的地方)();改变作用域
+
+        传参:可以在调用括号中传，也能在proxy（）中传   
+
+             参数在 $.proxy()中的好处:有时函数不能不能直接调用,要在事件后才调用，那参数就可以写在 Proxy里了 
+
+             $(document).on('click', $.proxy(show,window,3,4) )
+
+    --关于数据解析的工具方法(后端返回什么类型数据就调用转什么类型方法)
+
+      --$.ajax() 中有一个dataType属性,如果在者指定了要得到的数据类型，后端就必须返回什么类型的数据(有了该属性得到的数据不需要解析 就是指定的类型)
+
+        $.parseJSON(data) //只针对严格的json的字符串 安全性好 函数字符串就不能解析
+
+        $.parseHTML()  : 转化HTML的形式的字符串,转成DOM节点，放到一个数组中
+
+        $.parseXML(data)  
+
+        $.isXMLDoc(xmlDoc); //判断是否为xml文档
+
+   ---- $.AJAX();
+
+        $.get("url",{data},function(data){成功回调}，dataType).error(function(){错误回调}) //$.psot()也一样
+
+--jQuery中的动画
+
+  有三类自带动画 都有自己的对应的toggle方法
+
+  注:toggleClass();用法一样	
+   
+  --animate();自定义动画
+
+    参数一、数据 css样式
+
+            --数值的运算操作 如:"width":"+=100",  宽度为原始宽度+100
+
+
+    参数二、时间
+
+    参数三、运动形式  jQuery中只有两种 缓冲慢快慢（swing）和匀速（linear）
+
+    参数四、运动结束的回调
+
+
+   -- animate的第二种写法 （第二种写法可以扩展更多参数如 step	）
+
+                $('#div1').animate({
+
+			num : "move"//因为不需要用到变化，但是必须不能空所以需要一对键值站位
+
+		},{
+
+			duration : 2000,
+
+			easing : 'linear',
+
+			complete : function(){
+
+				//alert(123);
+
+			},
+			step : function(a,b){  //可以检测我们定时器的每一次变化
+
+				//console.log(a);
+
+				//console.log(b.pos);   //运动过程中的比例值(0~1)
+
+				$('#div1').html(parseInt(b.pos * 273826678)+起始值); //让div1里的值在两秒事件内从起始值匀速变为273826678
+			}
+		});
+
+   --jQuery的animate有队列的概念
+
+     每执行一次animate函数后jQuery源代码中都会有一个数组存储每个动画，按顺序执行
+
+     一个对象执行多次animate方法不会同时执行，他会按顺序执行 delay(time) 运动延迟
+
+  -- stop() 与 finish()
+
+     $('#div1').stop();    //默认情况下 : 只会停止当前运动  ，还有清空队列的作用
+		
+     $('#div1').stop(true);  //第一个参数 : 可以停止所有的运动
+		
+     $('#div1').stop(true,true); //第二个参数 : 可以停止到指定的目标点(当前的)
+		
+     $('#div1').finish();   //让所有的运动直接到达指定目标点                
+
+
+
+    
+ 
+
+
+
+
+
+
+
+
