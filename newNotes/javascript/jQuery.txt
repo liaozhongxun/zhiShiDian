@@ -46,6 +46,14 @@
 
        --$("div").off() //取消该对象的所有事件  可以加参数取消指定事件 off()只适用于以上两种绑定事件的方法
 
+       --on绑定事件扩展
+
+          $("div").on("click","span",{data},function(){}) ;有四个参数
+
+          得到data的数据:ev.data.key
+
+          span参数的作用:本来事件是作用于div，加了这个参数事件就作用于div下的span元素了
+
   -- return false; //记阻止默认事件有阻止事件冒泡 原生js的return false;是不能阻止绑定形式的默认事件的
 
   ----事件委托就是把事件委托给父级(触发了父级的什么事件时让当前元素怎样怎样 e.targen表示但钱元素)
@@ -78,6 +86,13 @@
 
       --$('#input1').click() ;这两种触发方法是一样的
 
+      --triggerHandler() ;该方法和trigger（）方法基本一样,不同点事它主动触发不会触发事件本身自带的默认行为
+
+  ----jQuery的自定义事件
+
+      概念:使用类似on的方式，把事件名改为自定义事件名，后面的函数就是这个事件所有的功能，在通过某种方式时使用trigger("自定义事件名") 方法主动触发就行
+
+
 --jQuery 的工具方法 $.xxx();
 
   --jQuery的普通方法都是基于jQuery对象使用的方法
@@ -99,6 +114,18 @@
      $.isEmptyObject()    //判断是否为空对象
 
      $.isPlainObject()    //判断是否为new出来的对象
+
+     $.inArray(查找的元素,所在的数组); //与字符串的indexOF功能一模一样
+
+     $.makeArray(object) //将对象转换为数组
+
+     $.getScript("js文件路径"，成功后执行的函数) //动态载入js文件
+
+     $.getJSON("路径.php?callback=?",成功后的回调); 参数一的要求:只要那个文件返回的是json数据就可以（实现jsonp,callback=?自动生成一个函数名,如果自己知道的话会报错）
+
+     $.noConflict(); //防止库之间的冲突，定义一个变量接收该函数的返回值,这个变量就能代替$了。
+
+     $.each(obj,function(i,val){});遍历数组或json;如果是数组 i 是索引 val是数组元素；如果是json  i是key val是value
 
      -- 继承 $.extend(); 默认浅拷贝
 
@@ -132,7 +159,31 @@
 
    ---- $.AJAX();
 
+        ajax跨域问题，在请求页面加上这段代码:
+
+             header('Access-Control-Allow-Origin:http://www.a.com');	//这是允许访问该资源的域 可以通配符*
+
+             ie上有自己的解决方法:XDomainRequest对象  https://www.w3.org/TR/XMLHttpRequest2/
+
         $.get("url",{data},function(data){成功回调}，dataType).error(function(){错误回调}) //$.psot()也一样
+
+        $("form").serialize();序列化表单
+
+        $("div").load("page.html .box",function(){}) //参数一、页面地址里的内容加载到div中 后面的是筛选条件，参数二、成功后执行的函数
+
+        ajax的全局方法
+
+           $(document).ajaxStart(function(e){});当一个ajax请求开始时候怎样                              
+           $.ajaxStop(); 请求结束是怎样                                   
+           $.ajaxSuccess()                              
+           $.ajaxError()                                   
+           $.ajaxComplete()                           
+           $.ajaxSend()                                  
+
+        更多ajax的属性及方法
+
+             http://www.cnblogs.com/heyuquan/archive/2013/05/13/js-jquery-ajax.html
+
 
 --jQuery中的动画
 
@@ -195,9 +246,91 @@
 		
      $('#div1').stop(true,true); //第二个参数 : 可以停止到指定的目标点(当前的)
 		
-     $('#div1').finish();   //让所有的运动直接到达指定目标点                
+     $('#div1').finish();   //让所有的运动直接到达指定目标点       
 
+--jQuery的杂方法
 
+  --end() addBack();操作当前元素的上一级（jQuery操作的上一级，如:#("div").next()）;end()不包括当前元素，addBack包括当前元素
+
+  --add();前面的集合中添加一个元素
+
+  --html("") 与 empty(); 都能清空节点内容
+
+  --remove() 与 detach() ; 都是删除宇哥元素节点并返回该元素，但是detach()返回的元素包括设置过的操作行为         
+
+  --ele1.replaceWith(ele2) ; 要用ele2替换掉ele1   ele1.replaceAll(ele2) ; 要用ele1替换掉ele2 
+
+  --focus/blur 与 focusin/focusout 的区别
+
+    有焦点的元素默认是不支持事件冒泡的
+
+    jQuery中如使用 focusin用在焦点元素的父级，当焦点元素的到焦点是就会触发父级的focusin事件
+
+    焦点元素本身也能用focusin方法，focusin的方法比focus方法执行顺序高
+
+  --one方式绑定事件 只能触发一次or
+  
+  --加载方法 $(function(){}) 与 $(window).load(function(){}) 的差别
+
+    前者与ready()方法完全一样
+
+    后者在也没上只能写一个，如果有多个只会执行最后一个，前面的可以写多个
+
+    使用前者可以给特殊一点的元素家load方法
+
+    前者是等页面上的DOM节点加载完就执行，后者是等整个页面加载完才执行(包括引入的文件什么的)
+
+  --数据缓存:data()
+
+    data()和attr()方法的用法和功能是基本一样的
+
+    data()方法不把设置的key单做对象的属性加到对象的身上，而是存在jQuery身上的一个集合中(如果要存比较大的数据就用该方法)
+
+    --attr()与prop();(两者最后不要用到同一个元素上)
+
+      attr();对原生js是 getAttribute() 方式添加属性;
+
+      prop();对原生 . [] 方式添加属性 (操作复选框最后用这个)
+
+      前者设置自定义属性可以出现在页面上,后者不行
+
+      各自设置的属性只有自己能够获取
+
+       prop设置的属性不好加到页面上，attr会
+
+    --removeData(),removeAttr();removeProp();
+
+ ----特殊方法中回调方法(把回调中的返回值较大对应元素中)
+
+     $(".element").addClass(function(i,oldClass){  }) //i代表选中元素的索引，参数二是本来就有的类
+
+     $(".element").html(function(i,oldClass){  }) //i代表选中元素的索引，参数二是本来就有的html内容
+
+     $(".element").val(function(i,oldClass){  }) //i代表选中元素的索引，参数二是本来就有的value值
+
+ ----jQuery中的队列操作
+
+     $.queue(); 入队
+
+     $.dequeue();出队 
+
+     使用: $.queue(作用域,队名，队员) //队员必须是函数
+
+           $.dequeue(作用域，队名) //执行第一次就走前面第一个,执行时自动执行对应的函数
+
+      或 $("div").queue(队名，队员);
+
+         $("div").dequeue(队名);
+
+     例子:animate用的就是队列，他的队名是fx
+
+ ----函数统一管理 $.Callbacks(); .add() //添加函数 .fire()//执行 .remove() //删除函数
+
+      
+
+    
+
+  
 
     
  

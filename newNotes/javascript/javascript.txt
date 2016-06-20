@@ -105,6 +105,41 @@ obj.addEventListener(evname, fn, false);
 
              serializeArray(）//以数组的形式序列化表单
 
+-----------------------文件上传------------------------
+
+  一、表单上传兼容ie
+
+      <form method="post" action="post_file.php" enctype="multipart/form-data">
+    	<input type="file" name="file" />  //name为后台指定
+        <input type="submit" value="上传" />
+      </form>
+
+  二、ajax上传不兼容ie9及以下
+
+      原理:通过ajax把要传的数据(file.files)文件列表 发给后台
+
+           直接发送 file.files[0] 这样后台无法接收到具体数据 所以要通过FormData转化
+
+           html5提供了一个上传属性 upload ，它有很多可操作方法
+
+           正则: /image\/\w+/.test(file.type)  //判断图片类型是不是图片
+
+
+  --知识点
+
+    -- input accept="image/*"  //弹出框中默认选择图片文件
+
+    -- 近一步解析文件 FileReader() 对象; 
+
+       var fileReader =new FileReader();
+
+       fileReader.readAsDataURL(file.files[0]);//以图片/文本/二进制等形式解析文件 换方法就行  （正常情况下这是后端做的）
+      
+       fileReader.onload=function(e){
+
+	    console.log(this.resule);//解析的内容
+       }
+
 
 -----------------------jsonp---------------------------
 --jsonp跟ajax无关，jsonp无跨域问题
@@ -145,6 +180,8 @@ function removeCookie(key) {
 }
 ------------------------操作Iframe--------------------------
 
+-----同域通讯
+
 (1)操作iframe下页面的元素
 
    获取要操作的iframe.contentWindow.document.getElementById("id");(在谷歌或其他什么浏览器上没效果是因为没在服务器上运行) 兼容所有浏览器
@@ -170,6 +207,33 @@ function removeCookie(key) {
             window.top.location.href=window.locatino.href;
 
        }
+
+  扩展:还有一种窗口间的通讯通过open打开的页面( var newWindow=window.open("页面地址","_blank"); )
+
+        该方法有一个返回值，就是返回打卡页面的window
+ 
+        操作 newWindow.document...操作这个窗口的的元素了
+
+        子页面操作父页面:window.opener.document.....
+
+-----跨域通讯 postMessage
+
+
+  1、 第一个参数：发送的数据
+
+      第二个参数：接收数据的域名｛带上协议｝		
+		
+      oMyIframe.contentWindow.postMessage('1', 'http://www.b.com');
+
+  2、 http://www.b.com 域下的任何一个页面：监听message事件(当窗口接收到通过postMessage发送过来的数据的时候触发)
+
+     window.addEventListener('message', function(ev) {
+
+     ev.data : 发送过来的数据
+
+     ev.origin :发送数据来的域
+     
+     }，false);
 
 
 ------------------------历史管理--------------------------
@@ -329,9 +393,116 @@ function removeCookie(key) {
 
        注：session同窗口才可以,例子：iframe操作  //临时存储的只能在iframe中起作用
 
+-----------------------离线存储 applicationCache---------------
+
+       搭建离线应用程序
+           ①服务器设置头信息 : 
+
+                AddType text/cache-manifest .manifest  （放在wamp 的 httpd.conf里）
+
+           ② html标签加 : 
+
+                manifest=“xxxxx.manifest”
+
+           ③写manifest文件 :  离线的清单列表
+
+                先写 :  CACHE MANIFEST
+  
+                FALLBACK :  第一个网络地址没获取到，就走第二个缓存的
+
+                NETWORK ：无论缓存中存在与否，均从网络获取
+
+
 
 
    
+------------------------移动端触摸事件--------------------------
+
+   1、相关事件: ontouchstart(onmousedown)、ontouchmove(onmousemove)、ontouchend(onmouseup)
+
+   2、ev.changedTouches[0] //触摸事件要通过该属性才能使用事件对象 ，接收到的返回值相当于其他事件的 ev;
+
+      var touct=ev.changedTouches[0]; alert(touct.pageX);
+
+   
+------------------------命名空间--------------------------------
+
+  var btn=document.getElementById("btn");
+
+  (function(){
+	var name="myName";
+
+	function alertshowName(nade){
+
+            alert(nade.Name);
+
+            alert(name)
+
+	}//自己的函数和变量外界不能随便访问
+
+	window["myKj"]={};//给自己的代码加上命名空间,唯一标识
+
+	window["myKj"]["showName"]=alertshowName;//一下外界访问这个函数
+  })()
+
+  myKj.showName(btn)
+
+-----------------------seajs模块化开发---------------------------
+
+   1、引入sea.js的库
+
+   2、将js代码变成模块(相当命名空间的(function)()函数)
+
+   define(function(require,exports,module){  //sea下的参数 : 不允许修改的
+	
+	//require : 模块之间依赖的接口(利用该方法引入就不用其他同事在页面中通过script标签引入了)
+
+        //exports ：相当于命名空间
+	
+	var a = require('./module3.js').a;   //当引入的是sea下面的模块的时候，那么require执行完的结果就是该模块的exports(命名空间)
+	
+	function show(){
+		alert(a);
+	}
+	
+	exports.show = show; //相当于window["myKj"]["showName"]=alertshowName;
+	
+   });
+
+   3、调用模块
+
+   seajs.use('./js/module1.js',function(ex){//引入成功后的回调,不用回掉直接引入也行
+
+        ex就是exports(命名空间)
+	
+	ex.show();  //1
+	
+	show();  //2
+	
+	function show(){
+		alert(2);
+	}
+	
+  });
+
+  --sea引入文件默认一sea.js文件所在目录为根目录
+
+  --sea中多次引入同一个js文件，就是只引入一回
+
+-----------------------面向对象--------------------------------
+
+  1、创建对象myFunction
+
+  2、私有方法:构造函数中直接以var定义的方法与属性(外面不能直接访问)
+
+  3、特权方法:构造函数中赋值给this.属性=function(){};通过它能访问到私有方法
+
+  4、公用方法:通过prototype创建的方法;
+
+  5、静态方法:new出的实例直接点出来的方法和属性(这些只能用于当前new出来的一个对象)
+
+     对象字面量 var obj={a:1,b:2} ;相当一个字面量对象点出a和b两个静态属性(最后一个键值对如果加上了封号在ie7以下是不兼容的)
+
 
 
 ===============================================================小知识点=======================================================
@@ -358,6 +529,8 @@ ff : 要通过参数传入(其实标准浏览器都能用这种方式)
 
 --e.relatedTarget; 代表从一个元素移入另外一个元素时第一个元素
 
+--e.originalEvent.clientX;jQuery得到原生js的e对象(有些js原生事件对象jQuery没有时,可以通过这个属性得到)
+
 ----------------------------------------系统方法
 
 obj.select(); //全选obj的内容(obj必须是可输入对象)
@@ -365,3 +538,9 @@ obj.select(); //全选obj的内容(obj必须是可输入对象)
 fn.call();//call方法的作用是改变当前函数作用域this指向 第一个参数是让this指向什么作用于;后面的就是函数的参数
 
             当作用域参数为null时this还是指向window
+
+---------------------------------递归 ---------
+
+   1、递归其实就是一个函数中如果满足一个条件时，继续执行这个函数
+
+   2、调用方法可以直接函数名或 arguments.callee() （函数自身(代表这句话所在的函数)）

@@ -127,6 +127,13 @@ navigator.geolocation.getCurrentPosition(function(){
 	
 };
 
+--------------------------------html5的一些小功能------
+
+ 属性:
+
+     contenteditable="true" //普通元素也能输如
+
+     x-webkit-speech  //语言输入
  
  
  

@@ -353,6 +353,8 @@ white-space:nowrap;
 
 //样式后加 !important 使该样式优先级最高 如width:10px !mportant;
 
+//css3定位元素居中  top:calc(50% - 70px) :浏览器高度的50% 减去定位元素的一半
+
 
  
 
