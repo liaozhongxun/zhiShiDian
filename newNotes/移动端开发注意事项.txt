@@ -1,0 +1,69 @@
+--去除点击高亮效果:给a标签加 -webkit-tap-highlight-color:transparent||一个颜色;
+
+--不同分辨率下字体或其他大小的适配
+ 
+  --根据屏幕宽度设置html下的fontsize大小;px为单位
+
+  document.getElementsByTagName("html")[0].style.fontSize=document.documentElement.clientWidth/3+"px";
+
+  --其他所有像素都用rem为单位
+
+--移动端默认样式设置(最好再给 .wamp 一个最大640和最小宽度300)
+
+/*
+*,::before,::after{
+    margin:0;
+    padding:0;
+    /*清除移动端默认的点击高亮效果*/
+    -webkit-tap-highlight-color:transparent;
+    /*设置以边框开始计算宽度*/
+    -webkit-box-sizing:border-box;
+    box-sizing:border-box;
+}
+
+body{
+    font-size:14px;
+    font-family:"Microsoft YaHei",sans-serif;/*设备默认字体*/
+    color:#333;
+}
+
+a{
+    color:#333;
+    text-decoration:none;
+}
+
+a:hover{
+    text-decoration:none;
+}
+
+ul,ol{
+    list-style:none;
+}
+
+input{
+    border:none;
+    outline:none;
+    /*清除移动端默认的表单样式*/
+    -webkit-appearance:none;
+}
+
+/*common css*/
+.f_left{
+    float:left;
+}
+
+.f_right{
+    float:right;
+}
+
+.clearfix::before,.clearfix::after{
+    content:"";
+    height:0;
+    line-height:0;
+    display:block;
+    visibility:hidden;
+    clear:both;
+}
+
+*/
+
