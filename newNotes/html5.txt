@@ -91,7 +91,13 @@ navigator.geolocation.getCurrentPosition(function(){
 
      (8) 保存路径 : cxt.save();
 
-     (9) 恢复路径 : cxtx.restore();  //保存与恢复之间设置的线宽与填充颜色等样式只能用于之间绘制的图形
+     (9) 恢复路径 : cxt.restore();  //保存与恢复之间设置的线宽与填充颜色等样式只能用于之间绘制的图形
+
+     (10) 阴 影 : cxt.shadowColor="";//颜色
+
+                  cxt.shadowOffsetX/Y=3;// x/y轴偏移量
+
+                  cxt.shadowBlur=3;//模糊程度
 
       2、画线
 
@@ -134,6 +140,23 @@ navigator.geolocation.getCurrentPosition(function(){
      contenteditable="true" //普通元素也能输如
 
      x-webkit-speech  //语言输入
+
+
+     forme属性
+
+         form="formID";//表单元素绑定表单  不支持ie
+   
+         required//有该属性的元素的值不能为空
+
+         pattern // 值是一个正则
+
+         autofocus="true"//自动聚焦
+
+         autocomplete="off"//关闭输入框默认的提示功能
+
+         novalidate=true;//给form加的 让这个表的下的所有元素都不需要验证 
+
+         multiple="multiple" //多文件上传
  
  
  

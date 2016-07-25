@@ -120,6 +120,10 @@ obj.addEventListener(evname, fn, false);
 
            直接发送 file.files[0] 这样后台无法接收到具体数据 所以要通过FormData转化
 
+           var formData=new FormData(); 可以直接把file.files[0]放到括号里
+ 
+           formData.append("name",file.files[0]);
+
            html5提供了一个上传属性 upload ，它有很多可操作方法
 
            正则: /image\/\w+/.test(file.type)  //判断图片类型是不是图片
@@ -394,7 +398,7 @@ function removeCookie(key) {
        注：session同窗口才可以,例子：iframe操作  //临时存储的只能在iframe中起作用
 
 -----------------------离线存储 applicationCache---------------
-
+ 
        搭建离线应用程序
            ①服务器设置头信息 : 
 
@@ -423,6 +427,56 @@ function removeCookie(key) {
    2、ev.changedTouches[0] //触摸事件要通过该属性才能使用事件对象 ，接收到的返回值相当于其他事件的 ev;
 
       var touct=ev.changedTouches[0]; alert(touct.pageX);
+
+
+------------------------h5拖拽--------------------------
+window.onload=function  () {
+   var one=document.getElementById("one");//接收对象
+   var two=document.getElementById("two");//拖拽对象 该元素需设置draggable="true"属性
+
+   //拖拽物体的事件
+   two.ondragstart=function  (e) {
+     e.dataTransfer.setData("Text","后盾网");//设置一个数据
+     one.innerHTML="开始";
+   }
+    two.ondrag=function  () {
+    // one.innerHTML+="移动";
+   }
+   two.ondragend=function  () {
+     one.innerHTML+="完成";
+   }
+
+  //投放区的事件
+  one.ondragenter=function  (e) {
+    one.innerHTML+="进入";
+	e.preventDefault();
+  }
+
+   one.ondragover=function  (e) {
+    //one.innerHTML+="移动";
+	e.preventDefault();
+  }
+  one.ondragleave=function  (e) {
+    one.innerHTML+="离开";
+	e.preventDefault();
+  }
+  one.ondrop=function  (e) {
+	e.preventDefault();
+	alert(e.dataTransfer.getData("Text"))
+        alert(e.dataTransfer.files)//该操作跟文件上传控件的 file.files 一样
+
+        var file=e.dataTransfer.files[0];
+	var formData=new FormData(); 
+        formData.append("aa",file);
+	var xml=new XMLHttpRequest();
+	xml.open("post","up.php");
+	xml.send(formData);
+ 
+
+	one.appendChild(two);
+  }
+}
+
 
    
 ------------------------命名空间--------------------------------
