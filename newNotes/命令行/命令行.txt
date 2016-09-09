@@ -48,6 +48,11 @@
   ren 文件一 文件二  //把文件一的名字改为文件二
 
 
+----sass命令
+
+    --style 四种类型  编辑输出格式
+
+
 ----网址
 
 http://www.tuicool.com/articles/jAzyyeY  react node成功配置

@@ -31,3 +31,19 @@
 
 
    ====@media 设备名称(all) 关键字 (条件) （没有严格的顺序）
+
+--js 横屏竖屏切换
+window.addEventListener("orientationchange", function() {
+    if(window.orientation==0){
+    	/*适配不同设备fontsize的大小*/
+        history.go(0);
+    };
+}, false);
+/*
+orientation属性
+它有三个值：0,90，-90
+0为竖屏模式（portrait）
+-90意味着该设备横向旋转到右侧的横屏模式（landscape）
+90表示该设备是横向旋转到左边的横屏模式（landscape）。
+还有一个是180，表示竖屏但是是翻转过来的竖屏模式。但这种模式至今尚未得到支持。
+*/

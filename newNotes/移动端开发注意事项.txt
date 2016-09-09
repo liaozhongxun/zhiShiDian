@@ -67,3 +67,40 @@ input{
 
 */
 
+
+//-----短信功能
+<a href="sms:18060849356">发送短信</a>
+
+
+//-----禁止百度对你的页面进行转码
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+//-----直接css实现水平滑动
+     ul{
+	height:100px;
+	width:500px;
+	padding:10px;
+	padding-top:0;
+	padding-bottom:20px;
+	box-sizing:border-box;
+	overflow-x:scroll;
+	overflow-y:hidden;
+	white-space: nowrap;
+	float:left;
+      }
+      ul li{
+        width: 100px;
+        height: 100px;
+	position:relative;
+	display:inline-block;
+	margin-right:5px;
+	background: #f0f;
+      }
+
+//移动端文字垂直居中与div垂直居中
+
+  父级加
+
+       display: flex;
+       align-items: center;
+       justify-content: center;
