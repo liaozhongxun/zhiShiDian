@@ -113,6 +113,41 @@
 
   --input的初始化value要配合onChange事件使用 或者 用defauleValue(值不改变的情况)
 
+======================================(reactks node版本)
+
+=========================webpack
+
+--------script
+
+修改默认配置文件目录:"webpack --config 配置文件名(如:webpack.html.config.js)";
+
+运行服务:"webpack-dev-server --port 端口号(number) --hot --inline(热加载) --config 配置文件名(没有就默认)";
+
+ES6文件转换为EC5:"babel es6文件名路径 --out-filel 转化后的文件路径";
+
+
+=========================EC6
+
+--------babel
+
+作用:将EC6的代码转化问EC5
+
+官网:http:babeljs.io
+
+安装:
+
+第一步(全局安装babel):npm install babel-cil -g
+
+第二步(将babel写入依赖):npm install babel-cil --save-dev
+
+第三部(告诉babel转换为什么代码):npm install --save-dev babel-preset-es2015;
+
+第四部:在根目录下创建文件 .babelrc 文件(内容加上 {"presets":["es2015"]});
+
+
+第五步(编译):"babel es6文件名路径 --out-filel 转化后的文件路径"
+
+
   
 
  

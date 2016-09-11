@@ -1,0 +1,49 @@
+/*三种写入内容的方式*/
+
+v-text="data"、v-html="data"、{{data}}
+
+// 设置类
+
+直接写class
+
+v-bind:class="";值可以是数组 json对象  数组中也能有json对象 数组元素添加类，json用于控制是否展现该class
+
+                数组元素为直接添加的类  json {类名:bool} 添加类，但是能判断是否显示
+
+简写 :class="";
+
+module.export={}  ===   export default{}
+
+module.export={
+
+     data:function(){//数据
+
+          return {
+ 
+          }
+     }，
+     props:["msg"],//组件通讯,msg为父组件传进来的属性 这里就代表可以使用这个值
+     methods:{//方法
+
+          getData:function(){
+
+          }
+
+     },
+     watch:{//监听数据变化(什么数据变化后执行一个动作)
+    
+          a:function(){
+
+          } 
+
+     }
+     
+      
+
+}
+
+module.export={} 渲染之后 就是 new Vue({});
+
+//父子组件通讯
+
+    <child msg="（传入子组件的信息）"  v-on:child-tell-me-something="fn，(自定义事件 子组件传出的数据)"></child>

@@ -1,0 +1,194 @@
+api文档  http://www.swiper.com.cn/api/navigation/2014/1217/66.html
+
+配置参数:
+
+---------------------------------------------------------
+
+   绑定点点分页索引
+
+       pagination:"分页容器选择器"，//下面的点  
+
+       paginationType : 'fraction' //分页导航样式("bullets": 圆点（默认） "fraction":分式  "progress": 进度条  "custom":自定义)
+   
+       paginationClickable:true,//开启点击导航翻页
+
+   绑定滚动条
+
+       scrollbar:"分页容器选择器",
+
+       scrollbarHide:false,//默认为true的 (鼠标移开或离开焦点是滚动条是否隐藏  false就是一直显示)
+
+   direction:"vertocal",//默认方向水平 设置垂直滑动
+
+   spaceBetween:30,//每页之间有30px间隙
+
+   slidesPerVierw:3,//设置一屏显示几列  auto自动进行分组
+
+   slidesPerColumn:3，//设置一屏显示几行  auto自动进行分组
+
+   centeredSlides:true,//页面居中显示(多个页面 但钱浏览的始终在最中间)
+
+   freeMode:true，//自由模式 能拖动任何距离 在哪里放开就停在哪
+
+   grabCursor:true,//鼠标样式为抓手
+  
+   nextButton:"swiper-button-next", //下一页
+
+   prevButton:"swiper-button-prev"，//上一页
+
+   loop:ture,//设置是否循环无缝切换
+
+   autoplay:2000,//两秒自动切换
+
+   speed:3000,//切换速度
+
+   keyboardControl:true,//允许键盘控制
+
+   mousewheelControl:true,//鼠标滚轮控制
+
+   touchRatio:(0.1-1);//相当于滑动阻力 值越大阻力越小，反之
+
+   hashnav:true,//开启散列导航(相当于a连接通过事件 用户操作跳转页面)
+
+   autoHeight:true,//自适应高度
+
+   breakpoints: {  //响应式机制  pc端不同屏幕宽度配置不同参数
+            1024: {
+                slidesPerView: 4,
+                spaceBetween: 40
+            },
+            768: {
+                slidesPerView: 3,
+                spaceBetween: 30
+            },
+            640: {
+                slidesPerView: 2,
+                spaceBetween: 20
+            },
+            320: {
+                slidesPerView: 1,
+                spaceBetween: 10
+            }
+   }
+
+   effect:"fade",//设置切换效果({
+
+       slide:位移
+
+       fade:淡入
+
+       cube:3d旋转
+
+       overflow:3d流
+
+       flip:3d翻转
+
+   })
+
+   cube:{  //当效果为cube是配置的参数
+
+       slideShadows：开启slide阴影。默认 true
+
+       shadow： 开启投影。默认 true
+
+       shadowOffset：投影距离。默认 20，单位px
+
+       shadowScale： 投影缩放比例。默认0.94
+
+   }
+
+   coverflow:{
+
+       rotate：slide做3d旋转时Y轴的旋转角度。默认50。
+
+       stretch：每个slide之间的拉伸值，越大slide靠得越紧。 默认0。
+
+       depth：slide的位置深度。值越大z轴距离越远，看起来越小。 默认100。
+
+       modifier：depth和rotate和stretch的倍率，相当于depth*modifier、rotate*modifier、stretch*modifier，值越大这三个参数的效果越明显。默认1。
+
+       slideShadows：开启slide阴影。默认 true。
+
+   }
+
+   flip:{
+
+        slideShadows：slides的阴影。默认true。
+
+        limitRotation：限制最大旋转角度为180度，默认true。
+
+   }
+
+---------------------------------------------------------
+---------------------------------------------------------
+
+配置方法:
+
+   改变导航样式
+
+   paginationBulletRender:function(index, className){
+          
+      return '<span class="' + className + '">' + (index + 1) + '</span>'; 该回调返回一个必须的类与索引  可以添加类改变样式也能改变返回的类
+
+   }
+
+---------------------------------------------------------
+==========================对象方法
+
+   swiper.prependSlide(["html元素"]);一个数组元素就在前面添加一页    
+
+   swiper.appendSlide(["html元素"]);一个数组元素就在前后面添加一页    
+
+======可嵌套
+
+======左右点击按钮
+
+  1、在swiper-wrapper同级(外部容器的下一级加两个元素 官网给的是div  class 为 swiper-button-next，swiper-button-prev);
+
+  2、通过参数 nextButton:"swiper-button-next",prevButton:"swiper-button-prev" 绑定
+
+======缩略图(其实就是连个一样的 容器绑定在一起)  slideToClickedSlide:true,//点击回来了
+
+  1、容器1.params.control= 容器二;
+  
+  2、容器2.params.control= 容器一;
+
+======散列导航(通过a连接跳转页面)
+
+  1、给一个虚拟页一个a连接，href="当前页面地址/#锚"
+
+  2、改要跳到的虚拟页添加 data-hash="锚" ；
+
+  3、设置配置参数hashnav:true
+
+======RTL布局(页面从右到左 最右边的为第一个)
+
+  在外部容器中加属性 dir="rtl";
+
+======视差(滑动时有一个背景滑动一点点)
+
+  1、在swiper-wrapper同级(外部容器的下一级） <div class="parallax-bg" style="backguound-image:url()" data-swiper-parallax="-20%"> //20% 20px为每次移动多少
+
+     属性  data-swiper-parallax="-20%"  能给页面内所有元素设置
+
+  2、设置配置参数:parallax:true;
+
+======延迟加载
+
+  1、虚拟页有一个要延迟加载的图片 必须属性class="swiper-lazy" //随意设置图片样式
+
+  2、<div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>  //旋转图标
+
+  3、配置参数  lazyLoading: true
+
+               preloadImages: false //关闭预先加载图片(可有可无)
+
+======内容滚动
+
+    var swiper = new Swiper('.swiper-container', {
+        scrollbar: '.swiper-scrollbar',
+        direction: 'vertical',
+        slidesPerView: 'auto',
+        mousewheelControl: true,
+        freeMode: true
+    });
