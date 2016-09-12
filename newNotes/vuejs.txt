@@ -46,4 +46,23 @@ module.export={} 渲染之后 就是 new Vue({});
 
 //父子组件通讯
 
-    <child msg="（传入子组件的信息）"  v-on:child-tell-me-something="fn，(自定义事件 子组件传出的数据)"></child>
+    ---- 父子集级传递信息(方法1:通过行内的事件跟属性跟 $emit())
+
+         <child msg="（传入子组件的信息）"  v-on:child-tell-me-something="fn，(自定义事件 子组件传出的数据)"></child>
+    
+         1、v-on:child-tell-me-something="fn" //该函数接收一个参数，就是接收到的信息
+
+         2、子集元素在一种动作(事件)后触发一个函数，做的是触发child-tell-me-something事件
+
+                this.$emit("child-tell-me-something",传的数据);
+
+    ---- 父子集级传递信息(方法2:$dispatch()  和 $broadcast()  加 vue对象的 events参数)
+
+         子集传  this.$dispatch("child-tell-me-something",传的数据) //子集向父级传
+
+         父级收  events:{
+                   "child-tell-me-something":function(msg){
+
+                    }
+               }
+         
