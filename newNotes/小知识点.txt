@@ -12,7 +12,7 @@
                       
    按钮本身:font-size 设置非常大、opcity:0(定位left:0、top:0);
 
-=== <meta name="renderer" content="webkit"> 使360浏览器默认使用webkit模式
+=== <meta name="renderer" content="webkit" /> 使360浏览器默认使用webkit模式
 
 ===空间、域名、ftp
 
@@ -37,3 +37,16 @@
     2、上传文件
 
        上传压缩文件，要的空间的文件管理里面解压，ftp不能直接解压的(有些空间只能解压特点格式的压缩文件)
+
+===清除浮动
+
+   ==子级别最后加一个 clear:both;
+
+   ==父级{zoom:1;}
+     父级:after{
+    		display:block;
+    		clear:both;
+    		content:"";
+    		visibility:hidden;
+    		height:0
+    } 
