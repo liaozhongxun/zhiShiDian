@@ -38,7 +38,7 @@
 
        上传压缩文件，要的空间的文件管理里面解压，ftp不能直接解压的(有些空间只能解压特点格式的压缩文件)
 
-===清除浮动
+==================================清除浮动
 
    ==子级别最后加一个 clear:both;
 
@@ -50,3 +50,27 @@
     		visibility:hidden;
     		height:0
     } 
+
+.clearfix{//给浮动元素的父级加
+  &:before,
+  &:after {
+    display:block;
+    clear:both;
+    content:"";
+    visibility:hidden;
+    height:0
+  }
+  &:after {
+    clear: both;
+  }
+}
+.clear{
+    zoom:1;
+    &:after{
+      display:block;
+      clear:both;
+      content:"";
+      visibility:hidden;
+      height:0
+    }
+ }
