@@ -1,0 +1,486 @@
+//========================函数
+
+1、f2 或 双击进入编辑函数状态
+
+2、复制函数 下拉右下角加号键 或 双击加号键 或 选择单元格Ctrl+d 或 选择性粘贴(选择公式及数字格式)
+
+3、运算符:
+
+   算术运算符:+、-、*、/、%、^（次方）
+
+   比较运算符:<>不等于  > >= < <= =
+
+   文本运算符:&（连字符）
+
+   优先级: -(负号) 、% 、^ 、 *和/ 、 +和-  、& 、比较运算符
+
+4、f9与公式审核
+
+   在函数栏选择一个函数或运算操作 按f9得出运算结果
+
+   f9是手动的 公式审核时自动的
+
+5、常用函数
+
+   =if("判断条件","成功时","失败时")
+
+   =sumproduct(数组一，数组n); 计算所有参数数组对应相乘的结果之和
+
+        容纳2到255个数组
+
+        将非数值的内容当做0处理（bool值也是为0）
+
+        作为参数的数组必须要有相同的维数
+
+   =sumif(条件判断的区域,"条件"，计算的区域);如果没有第三个参数默认为条件判断的区域
+
+         条件区域可以是一个数组 放多个参数 或的关系
+
+         条件区域的通配符 *（代表任意多个字符） ？（代表任意单个字符）
+
+  =COUNT：求数字个数	(有错不会报错 只统计是数值的单元格个数  )
+	
+  =COUNTA：非空单元格个数		
+
+  =COUNTBLANK:求空值个数
+
+  =COUNTIF("区域","条件") //统计符合条件的个数		
+
+
+6、数组  {}  元素之间可以用逗号分隔、也能用封号分隔 
+
+   很多时候取一个范围的值 的到内存数组(得到值但不能直接显示出来)进行操作是 ctrl+shift+enter 取值
+
+   数组的运算要 Ctrl+shift+enter得到结果
+
+7、相对（正常）、绝对(f4)、混合引用(一个$)
+
+8、逻辑值 true false ;
+
+   逻辑运算函数 and or not(就是非)
+  
+      =and(参数一，参数N)
+
+   --false 、=N(false) 将bool值转换为数值
+
+
+   or函数只能或单个元素，+ 分别获两组元素  {false,true,false}+{false,false,true}={false,true,true}  
+
+   and                   *
+
+9、is类函数
+
+   ISBLANK	值为空白单元格							
+   ISERR	值为任意错误值（除去 #N/A）							
+   ISERROR	值为任意错误值（#N/A、#VALUE!、#REF!、#DIV/0!、#NUM!、#NAME? 或 #NULL!）							
+   ISLOGICAL	值为逻辑值							
+   ISNA	        值为错误值 #N/A（值不存在）							
+   ISNONTEXT	值为不是文本的任意项（注意此函数在值为空白单元格时返回 TRUE）							
+   ISNUMBER	值为数字							
+   ISREF	值为引用							
+   ISTEXT	值为文本							
+ 
+====================================excel VBA编程===================================================
+
+一、基础
+
+宏:录制你的一段操作，可重复执行
+
+   随便建一个按钮，右键指定宏，以后单击该按钮就是执行一遍宏操作了
+
+   但是不够只能 需要依靠VBA
+
+------------------------------VBA---------------------------
+
+--VBA是一种宏语言，主要用来控制window的应用程序功能
+
+  VBA必须依赖于父程序，如:Excel,CAD,CORELDRAW等
+
+--内容能写在插入的模块里，也能直接写在工作表里
+
+  新建一个按钮 右键指定宏时就能选择sub函数名  单击执行相应代码
+
+--vba的编写规则
+
+  设置:工具--选项 设置界面字体等颜色
+
+  注释:前面一个单引号(编辑--下有直接操作按钮)
+
+  运行:直接点击运行按钮，或选中一段 f8逐句运行
+
+  代码换行:下划线+空格+换行
+
+  帮助:选中一段关键字，按f1 出现相关帮助
+
+  代码的编写规则
+
+      --子过程
+
+      --函数过程
+
+  一行中如果要有多个语句需以冒号分开  
+
+--一些关键字和内置函数
+
+  Debug.Pring "" //把一些内容显示在立即窗口中  按f8本地窗口就列出所有变量
+
+  MsgBox "" //弹出一下内容
+
+  InputBox("") //弹出一个选择宽 文字为提示内容
+
+  IIf(条件，"成立"，"不成立")
+
+
+--对象(工作簿、工作表、单元格，图表、透视表等等)
+
+   1、工作簿（Workbooks）
+      ' Workbooks（N）第N个工作簿
+      ' Workbooks ("工作簿名")
+      ' ActiveWorkbook 活动工作簿
+      ' ThisWorkBook '代码所在工作簿
+    
+  '2、工作表（Worksheets）
+      'Sheets(N) 第N个工作表
+      'Sheets("工作表名")
+      'SheetN 第N个工作表
+      'ActiveSheet 活动工作表
+      'worksheets 与 Sheets的区别
+      
+  '3、单元格（cells）
+       'Range ("单元格地址")
+       'Cells(行号,列号)
+       '[A1]单元格简写
+       'Activecell 活动单元格
+       'Selection 当前被选取的区域
+
+==属性
+
+==方法
+
+  选择工作表的方法:Sheet1 或 Sheets(1~n）
+  
+  选择单元格也能: sheet1.[a1]
+
+  --选中方法:Select  如Range("a1:a10").Select c //没有指定工作表，默认为指定工作表
+
+    复制方法:Copy    如Sheet1.Range("a1:a10").Copy Sheet2.Range("复制到工作表的起始点如 a1")
+
+    删除方法:Delect   
+
+==常量与变量
+
+   定义变量默认是可以不要声明的 头上加上Option Explicit 要求变量声明后就必须声明了
+
+   常量:Const 常量名=常量值
+
+   变量:Dim 变量名 As 变量类型
+
+        简写:Dim 变量名%(类型简写符号)
+
+        声明多个变量 Dim后跟多个变量 用逗号分开
+
+==数据类型'
+
+   1.VBA中的常见数据类型：
+
+   '  类型          注释        简写    占用内存
+
+   ,  Byte          字节型               只能放0-255
+
+   '  Integer       整型         %       2Byte
+   '  Single        单精度       !       4Byte
+   '  Double        双精度       #       8Byte
+   '  Long          长整型       &       4Byte
+   '  String        字符型       $       定长或变长( 变长字符串最多可包含大约 20 亿 ( 2^31)个字符。 定长字符串可包含 1 到大约 64K ( 2^16 ) 个字符。)
+   '  Currency      货币型       @       8Byte
+
+==基础语句
+
+  if语句:If 条件 Them 语句1 ElseIf 语句2 Else 语句3 (如果语句有换行的话 后面一定要加End If)
+
+  select语句:
+
+      单条件:Select Case i Case Is条件 语句1 Case Else 语句2  (换行要加End Select)
+
+      多条件:Select Case i
+
+             Case "A"
+      
+             语句一
+
+             Case "B"
+
+             语句二
+
+             Case Else 
+
+             语句三
+
+             End Select
+
+  Do Loop语句:自己会无限制循环 内部通过if语句判断满足条件了是 Exit Do 退出Do循环
+
+  Do While Loop语句:Do while 条件  (条件成立执行，否则跳出) 
+
+                       语句
+
+                    loop
+
+  Do Until Loop语句:Do Until 条件  (条件成立时跳出) While与Until是能放在Loop后面的
+
+                       语句
+
+                    Loop
+
+  For Each 语句: For Each 变量(对象型变量 如Worksheet) In Worksheets(当前文档的所有工作表)
+
+                 语句。。。
+
+                 Next
+
+                 （把 In 后面的放到 对象型变量中  循环每一个）
+
+  For语句: For i=1 To 100  Step 2(步长 两步两步的走 没有默认1, 倒序步长为负数)
+
+           语句。。
+
+           Next i          //Exit For 跳出for循环   加个i 是让外面能访问到i
+
+
+ GoTo语句: 当怎样怎样的时候 GoTo line   就跳转到前面 定义 line: 的地方
+
+ On Error 语句: On Error Resume Next （错误的时候跳过）   On Error GoTo 。。。 (错误的时候跳到哪里)
+
+ With语句: With 一个东西   在下面结束之前 以 .开头的 在点前面加上这个东西
+
+    Sub with语句2()
+    With Range("a1")
+        a = .Address
+        b = .Parent.Name
+        .Value = "1234"
+   End With
+   End Sub
+
+==========================VBA与函数===========
+
+1、Sheet1.Cells（1,4）= "=a1+b1" 要有等于号，不然单元格中只有值没有公式
+
+
+--数组公式
+
+2、Range("e1:e10").FormulaArray="=a1:a10+b1:b10";
+
+3、Cells(12, 1) = "=COUNTIF(A1:A10,"">9"")" //如果函数中也有引号 就多加一个引号
+
+4、函数类型
+
+  ======================一、工作表的函数=====================
+
+  ======================二、VBA的函数========================
+
+  ======================三、自定义函数=======================
+
+=============================VBA 的运算符===================
+
+-----------------------------------------------------------------------------------
+
+二、工作簿(workbook)与工作表(worksheet)   一个工作簿中与多个工作表
+
+(1) 基本操作
+
+    MsgBox Workbooks("2-1.工作簿的表示方法").Parent '返回工作簿对象的父对象。
+
+    MsgBox Workbooks(2).Name '返回工作簿的名称() //打开的第一个就是Workbooks(1)  第二个就是（2）
+
+    MsgBox Windows.Count '返回当前excel工作簿打开的个数
+    MsgBox Windows(1).Parent.Name '返回第几个工作簿的名称 '这种方式返回的名称顺序与Workbooks(n).Namee 得到的名字相反
+
+    MsgBox ThisWorkbook.Name & "---" & ActiveWorkbook.Name  '当前工作表的名字与活动工作表的名字
+
+    MsgBox ThisWorkbook.Path & Chr(10) & ThisWorkbook.FullName   '当前工作表的路径与当前工作表的路径(包括文件名)
+
+    Workbook（1）.Activate   '动态激活一个工作簿
+
+    --新增与删除工作表
+
+        Sheets.Add 方法
+'       表达式.Add(Before, After, Count, Type)  '参数[在哪个之前，在哪个之后，添加个数，添加表的类型]   ，想跳过第一个的话就用逗号占位 或:Add After:=工作表名
+'       XlSheetType 常量之一：
+'       xlWorksheet                工作表
+'       xlChart                        图表
+'       xlExcel4MacroSheet     宏表
+'       xlExcel4IntlMacroSheet 对话框
+'       默认值为 xlWorksheet
+
+        ActiveSheet.Name = "命名" //直接给新加的工作表命名
+
+        或
+ 
+        Set 变量=Sheets.Add 然后操作变量就行  变量要是相应的变量（对变量进行赋值是要加Set）
+  
+        删除 : sheet1.delect
+
+        Application.DisplayAlerts = False  //删除的时候不要有提示框
+
+   --移动与复制
+
+     '工作表.Move(Before, After)  参数用法跟Add相同
+     '工作表.copy(Before, After)
+
+   --选择与激活
+
+    Sheet3.Select '不支持隐藏选取
+    Sheet3.Activate '支持
+
+    Worksheets.Select 选择所有的工作表表
+    Sheets.Select
+    
+    Worksheets(Array(1, 3, 5)).Select 自定义选择
+
+   --保存 工作簿.SaveAs Path   'Path 是一个路径
+
+（2）基本概念
+
+    Workbooks由当前所有在内存中打开的Workbook对象组成
+
+    Worksheets仅指的是工作表，而sheets包含图表，工作表，宏表等等 (也可以通过 Worksheets(n,表名) ,sheets(n,表名),sheet1这种默认表名 获得工作表对象)
+
+                                                                  可以直接通过 MsgBox ActiveSheet.Name  的方式操作当前激活的工作表
+
+-----------------------------------------------------------------------------------
+
+三、操作表示 单元格
+
+  (1)基本概念
+
+     Range 对象
+
+     Range("文本型数据")
+
+     代表某一单元格、某一行、某一列、某一选定区域（该区域可包含一个或若干连续单元格区域），或者某一三维区域。
+
+     --基本操作
+  
+       Sub rng()
+           Range("a1").Select           '单元格
+           Range("a:a").Select          '列 
+           Range("1:3").Select          '行
+           Range("a1:b10").Select       '相邻区域
+           Range("a1:d7,c4:e8").Select  '两个区域叠加(加选)
+           Range("a1:d7 c4:e8").Select  '取两个区域相交
+       End Sub
+
+       Sub rng变化()
+           Range("a1:b10").Select                    '一般写法
+           Range("a1", "b10").Select                 '变化写法1
+           Range(Range("a1"), Range("b10")).Select   '变化写法2 (效果都一样 可放变量 如果用在图表上则会报错)
+           Range(Cells(1,2), Cells(3,4)).Select   
+           Range("a1") = 123
+       End Sub
+
+       Sub 单元格对象例子()
+           Debug.Print Range("a:a").Count                '计数工作表最大的行数
+           Debug.Print Range("1:1").Count                '计算工作表最大的列数
+           Debug.Print Application.CountA(Range("a:a"))  '计算工作表已使用的行数
+           Debug.Print Application.CountA(Range("1:1"))  '计算工作表已使用的列数
+       End Sub
+
+       Sub range的变量支持()
+           Dim a%
+           a = 3
+           Range("a" & a).Select               '支持变量
+           Range("c3:e5")(2).Select            '选择区域(参数应用)
+           Range("b2:d4").Range("a1").Select   '相对引用的写法(把工作表的起始点虚拟为选择区域的起始点，这里的a1实际上是b2)
+       End Sub
+
+       Sub 索引号取出range的单元格()
+          'Range("a1:c4")(4).Select      '引用顺序是：从左向右，从上到下选取 ，索引值可以是正数，负数，零值，小数
+                                         '(4)是item(4)的简写 这里可以忽略 ,简写的方式不能省略
+   
+           Range("a1:c4")(4.5).Select    '当有小数时，则取整   '注意：如果索引号出现小数，则按照“四舍六入五单双”的“银行家舍入法”
+                                         '意思是四舍六入  如果是5的话就看小数点前的数的奇偶(如果是奇数进1，如果是偶数就舍)
+
+           Range("a1:c4")(3,2).Select    '利用行号与列号定位 也支持小数点
+       End Sub
+
+     --单元格的简写(不支持变量)
+
+       Sub 单元格简写()
+           [a3].Select ' 单元格引用
+           [b2:c6].Select '单元格区域引用
+           [a3,b2:c6,b8:d12].Select '多区域引用
+           [a:a].Select '整列引用
+           [1:1].Select '整行引用
+       End Sub
+
+    --cells 对象
+
+      --cells中的数字一样支持正数，负数，0值，小数(四舍六入五单双)
+      --cells不能像range一样可以引用一个区域，只能引用一个单元格
+
+      cells(行号,列号)	
+
+      cells(1,2)
+ 
+      cells(1,"B") 可以用字母	
+
+      Cells 什么都不带表示全部 如: Cells.Select
+
+      Cells(5) 如果只有一个参 跟上面的索引用法一样
+
+   --行列引用
+
+      Sub 列引用()   'Range的写法 Range("1:1").Select
+
+          Columns(1).Select  '带s 所有列的第一列
+          Columns("b").Select
+          Columns("c:e").Select
+      End Sub
+
+      Sub 行引用()   'Range的写法 Range("a:a").Select
+          Rows(1).Select
+          Rows("2").Select
+          Rows("3:4").Select
+      End Sub
+
+      Sub 全选()
+          Rows.Select      '选择所有行
+          Columns.Select   '选择所有列
+          Cells.Select     '选择所单元格
+          i = Rows.Count
+          j = Columns.Count
+          k = Cells.Count  '运行出错 之太大了  k=i*j
+      End Sub
+
+      ---Range("").Row 属性
+
+         默认返回区域中第一个子区域的第一行的行号
+
+      ---Range("").Column 属性
+
+         默认返回指定区域中第一块中的第一列的列号
+
+         Sub test()
+             i = Range("a3:b9").Range("a5").Row      '指定a5
+             j = Range("a3:b9").Row                  '默认
+             i = Range("b3:d9").Range("a5").Column
+             j = Range("b3:d9").Column   
+         End Sub
+
+        row.RowHeight = 5    '设置某一行的行高
+
+        col.ColumnWidth = 20 '设置某一列的列宽
+
+--------------------------------------------------------------------------------------
+
+== 函数
+
+   Chr(数字)  '将数组转化为对应的字符 65535个
+
+				
+
+
+
+
+
+   
