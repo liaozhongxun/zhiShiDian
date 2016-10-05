@@ -104,3 +104,42 @@ input{
        display: flex;
        align-items: center;
        justify-content: center;
+
+/=============================清除移动端默认的点击高亮效果
+
+   -webkit-tap-highlight-color: transparent(可以是颜色值);
+
+   a,button,input,optgroup,select,textarea {
+     -webkit-tap-highlight-color:rgba(0,0,0,0); /*去掉a、input和button点击时的蓝色外边框和灰色半透明背景*/
+   }
+
+、=============================禁止长按 a，img 标签长按出现菜单栏
+
+  a, img {
+    -webkit-touch-callout: none; /*禁止长按链接与图片弹出菜单*/
+  }
+//================手机的一些功能
+
+---打电话
+
+     安卓:<a href="tel:1233434334">1233434334</a>
+   
+     IOS:
+
+---发邮件
+
+     安卓:<a href="mailto:869664233@qq.com">869664233@qq.com</a>
+
+     IOS:
+
+---mate标签
+
+      全:
+
+      安卓: <meta content="email=no" name="format-detection" /> 'Android平台中对邮箱地址的识别
+
+      IOS:  <meta name="apple-mobile-web-app-capable" content="yes" />    '生产桌面小图标
+            <meta name="apple-mobile-web-app-status-bar-style" content="black|default|black-translucent" />  '作用是控制状态栏显示样式。
+            <meta name="apple-mobile-web-app-capable" content="yes"/>  '允许全屏浏览
+            <meta content="telephone=no,email=no(邮箱可选)" name="format-detection" /> '忽略将页面的数字自动识别为电话号码
+            <meta name="apple-mobile-web-app-capable" content=”yes” /> '是否删除默认的苹果工具栏和菜单栏

@@ -1,0 +1,53 @@
+1、Canvas的属性和方法
+   
+   属性:width、height
+
+   方法:canvas.getContext("2d")  //获取画布的绘图环境对象
+
+        canvas.toDataURL(type,quality)   //返回一个数据地址 参数一、图片类型，默认image/png 参数二、图片质量(0.1~1)
+
+              dataURLtoBlob(canvas.toDataURL(type,quality)); //将得到的图片路径转换为bool对象，通过FormData()上传
+
+        canvas.toBlob(callback,type,quality) //多了一个灰调函数 //直接得到一个bool对象
+
+        (所有操作Canvas主要是操作其绘图环境)
+
+2、处理绘制好的图片(下载或添加到哪里..) [不兼容ie ]
+
+   objectURL = URL.createObjectURL(blob || file); //该方法会根据传入的参数创建一个指向该参数对象的URL.
+
+   window.URL.revokeObjectURL(objectURL); //方法会释放一个通过URL.createObjectURL()创建的对象URL
+
+   方法一、通过URL.createObjectURL(blob)生成一个链接给a
+
+          (1)首先在页面上准备一个a链接按钮，通过该按钮进行下载(必须有属性download="image" 值为下载后图片的名称)
+
+         （2)canvas.toBlob(function(blob){   //ie完全不兼容toBlob方法 和download属性
+		 url = URL.createObjectURL(blob);
+		 a.href=url;
+	     },"image/jpeg",0.5)
+
+   方法二、也是通过URL.createObjectURL(blob)生成一个链接给a  [ie10、11可以得到blob数据，只是不能直接下载]
+
+          (1)通过 canvas.toDataURL(type,0.5);  得到一个图片路径  转换为blob对象 
+
+          (2)var type = 'image/jpeg';
+
+             var dataurl=canvas.toDataURL(type,0.5);
+
+             var bin = atob(dataurl.split(',')[1]);
+             var buffer = new Uint8Array(bin.length);
+
+             for (var i = 0; i < bin.length; i++) {
+                buffer[i] = bin.charCodeAt(i);
+             }
+             var blob = new Blob([buffer.buffer], {type: type});
+             var url = window.URL.createObjectURL(blob);
+
+             a.href=url;
+
+
+
+--------------------Canvas注意事项
+
+--设置Canvas必须在标签内设置宽高，css会让画布缩放
