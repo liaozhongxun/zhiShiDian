@@ -318,7 +318,7 @@
 
         或
  
-        Set 变量=Sheets.Add 然后操作变量就行  变量要是相应的变量（对变量进行赋值是要加Set）
+        Set 变量=Sheets.Add 然后操作变量就行  变量要是相应的变量（对对象变量进行赋值是要加Set）
   
         删除 : sheet1.delect
 
@@ -538,6 +538,17 @@
 
       [a1].EntireColumn  //整列
 
+    --定位
+
+      Selection.SpecialCells(-4144) //-4144为一种状态 得到选择区域中状态为-4144的单元格(选择属性 f1 查看详情)
+    --find方法
+    cells（表达式 范围可自选）.find("查找内容","开始查找位置+","查找范围","单元格匹配"，"搜索"，"指定查找方向+","是否区分大小写"，"区分全角/半角","格式")
+    <单元格区域>.Find (What，[After]，[LookIn]，[LookAt]，[SearchOrder]，[SearchDirection]，[MatchCase]，[MatchByte]，[SearchFormat])
+
+    --单元格的end属性
+
+      找到一片区域内最上最下最左最右的单元格 Range.End(xlUp,xlDown,xlToLeft,xlToRight)
+
  
 
 
@@ -552,6 +563,11 @@
    Left(str,n) //从左边提取字符串中的n个字符
 
    Len（str）  //str的长度
+
+-----------一些操作----------------------
+== 变量拼接
+ 
+   Range("a2:a" &  数值变量)
 
 				
 
